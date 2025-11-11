@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  phone        Decimal
+  password     String
+  role         Role          @default(INVESTOR)
+  balance      Decimal       @default(0.0)
+  investments  Investment[]
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Plan {
+  id             Int          @id @default(autoincrement())
+  name           String
+  value          Decimal
+  dailyProfitPct Decimal // ex: 15 = 15%
+  status         PlanStatus   @default(OPEN)
+  createdAt      DateTime     @default(now())
+  investments    Investment[] // relação inversa adicionada aqui
+}
+
+model Investment {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  planId      Int
+  amount      Decimal
+  accumulated Decimal  @default(0.0)
+  active      Boolean  @default(true)
+  startAt     DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+  plan        Plan     @relation(fields: [planId], references: [id])
+}
+
+model Transaction {
+  id        Int             @id @default(autoincrement())
+  userId    Int
+  type      TransactionType
+  amount    Decimal
+  fee       Decimal         @default(0.0)
+  createdAt DateTime        @default(now())
+  note      String?
+  user      User            @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  INVESTOR
+  TRADER
+  ADMIN
+}
+
+enum PlanStatus {
+  OPEN
+  CLOSED
+}
+
+enum TransactionType {
+  DEPOSIT
+  PROFIT
+  WITHDRAWAL
+}
