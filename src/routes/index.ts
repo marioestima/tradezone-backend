@@ -7,12 +7,17 @@ import transactionRoutes from "./transaction.routes";
 
 const router = Router();
 
-// Rotas públicas podem ir aqui (ex: login, register)
+// Rotas públicas
 router.use("/", userRoutes);
 
+// Rotas protegidas
 router.use("/plans", planRoutes);
 router.use("/investments", authMiddleware, investmentRoutes);
 router.use("/transactions", authMiddleware, transactionRoutes);
-router.use("/wallet");
+
+// Caso tenha router de wallet futuramente:
+// import walletRoutes from "./wallet.routes";
+// router.use("/wallet", authMiddleware, walletRoutes);
 
 export default router;
+  
