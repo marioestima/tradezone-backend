@@ -1,5 +1,6 @@
 // src/repositories/prisma/PrismaWalletRepository.ts
-import { prisma } from "../../../prisma/client";
+import { prisma } from "../../prisma/client";
+
 import { Wallet } from "@prisma/client";
 import { IWalletRepository } from "../interfaces/IWalletRepository";
 

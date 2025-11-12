@@ -1,10 +1,15 @@
-// src/repositories/PrismaUserRepository.ts
-import { prisma } from "../../../prisma/client";
+import { prisma } from "../../prisma/client";
 import { User, Role } from "@prisma/client";
 import { IUserRepository } from "../interfaces/IUserRepository";
 
 export class PrismaUserRepository implements IUserRepository {
-  async create(data: { name: string; email: string; password: string; role?: Role }): Promise<User> {
+  async create(data: {
+    name: string;
+    email: string;
+    password: string;
+    role?: Role;
+    phone: number;
+  }): Promise<User> {
     return prisma.user.create({ data });
   }
 

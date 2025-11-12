@@ -1,5 +1,5 @@
 // src/repositories/PrismaPlanRepository.ts
-import { prisma } from "../../../prisma/client";
+import { prisma } from "../../prisma/client";
 import { Plan } from "@prisma/client";
 import { IPlanRepository } from "../interfaces/IPlanRepository";
 
