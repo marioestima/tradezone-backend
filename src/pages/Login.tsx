@@ -94,13 +94,19 @@ const Login = () => {
           </div>
 
           {/* Botão de login */}
+          {/* Botão de login */}
           <button
             type="submit"
             disabled={loading}
-            className="flex h-12 w-full mt-6 items-center justify-center rounded-xl bg-[#36853D] text-white text-base font-bold tracking-wide hover:opacity-90 transition-transform hover:scale-[1.02]"
+            className="flex h-12 w-full mt-6 items-center justify-center rounded-xl bg-[#36853D] text-white text-base font-bold tracking-wide hover:opacity-90 transition-transform hover:scale-[1.02] relative"
           >
-            {loading ? "Entrando..." : "Entrar"}
+            {loading ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent border-solid rounded-full animate-spin"></div>
+            ) : (
+              "Entrar"
+            )}
           </button>
+
 
           {/* Link para registro */}
           <Link
