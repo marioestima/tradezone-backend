@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { Mail, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { login } = useAuth();
@@ -15,7 +17,7 @@ const Login = () => {
 
     try {
       await login(email, password);
-      // redirecionamento será feito no AuthContext
+      // Redirecionamento será feito no AuthContext
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao fazer login");
     } finally {
@@ -67,10 +69,12 @@ const Login = () => {
             <div className="text-red-500 text-sm text-center">{error}</div>
           )}
 
+          {/* Campo de e-mail */}
           <div className="w-full relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">
-              mail
-            </span>
+            <Mail
+              size={20}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            />
             <input
               type="email"
               placeholder="Seu e-mail / telefone"
@@ -81,10 +85,12 @@ const Login = () => {
             />
           </div>
 
+          {/* Campo de senha */}
           <div className="w-full relative">
-            <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">
-              lock
-            </span>
+            <Lock
+              size={20}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+            />
             <input
               type="password"
               placeholder="Sua senha"
@@ -95,20 +101,22 @@ const Login = () => {
             />
           </div>
 
+          {/* Botão de login */}
           <button
             type="submit"
             disabled={loading}
-            className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-black text-base font-bold tracking-wide hover:opacity-90 transition"
+            className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-black text-base font-bold tracking-wide hover:opacity-90 transition-transform hover:scale-[1.02]"
           >
             {loading ? "Entrando..." : "Entrar"}
           </button>
 
-          <a
-            href="/register"
+          {/* Link para registro */}
+          <Link
+            to="/register"
             className="flex h-12 w-full mt-3 items-center justify-center rounded-xl bg-gray-800/50 text-white text-base font-semibold tracking-wide backdrop-blur-sm border border-gray-700 hover:bg-gray-700/40 transition"
           >
             Registrar
-          </a>
+          </Link>
         </form>
 
         {/* Rodapé */}
