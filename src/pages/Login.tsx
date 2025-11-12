@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
@@ -16,18 +15,20 @@ const Login = () => {
 
     try {
       await login(email, password);
-      // redirecionamento pode ser feito usando react-router
+      // redirecionamento será feito no AuthContext
     } catch (err: any) {
-      setError(err.response?.data?.message || "Erro ao logar");
+      setError(err.response?.data?.message || "Erro ao fazer login");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relativ flex h-screen w-full flex-col justify-center items-center bg-background-dark font-display text-white p-6">
-      <div className="absolute inset-x-0 top-0 h-[60%] bg-[radial-gradient(ellipse_50%_50%_at_50%_-10%,rgba(37,244,54,0.2),rgba(255,255,255,0))]"></div>
+    <div className="relative flex h-screen w-full flex-col justify-center items-center bg-[#0A0A0A] font-display text-white p-6">
+      {/* Fundo com gradiente */}
+      <div className="absolute inset-x-0 top-0 h-[60%] bg-[radial-gradient(ellipse_50%_50%_at_50%_-10%,rgba(37,244,54,0.2),rgba(255,255,255,0))]" />
 
+      {/* Conteúdo principal */}
       <div className="relative z-10 flex flex-col w-full max-w-md space-y-6">
         {/* Logo */}
         <div className="flex flex-col items-center text-center pt-8">
@@ -41,13 +42,15 @@ const Login = () => {
               <path
                 d="M4 4H20V6H4V4ZM4 11H20V13H4V11ZM4 18H20V20H4V18Z"
                 fill="currentColor"
-              ></path>
+              />
             </svg>
-            <h1 className="text-3xl font-black tracking-tighter text-white">TRADEZONE</h1>
+            <h1 className="text-3xl font-black tracking-tighter text-white">
+              TRADEZONE
+            </h1>
           </div>
         </div>
 
-        {/* Texto */}
+        {/* Texto informativo */}
         <div className="flex flex-col items-center text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white">
             Seu futuro financeiro começa aqui.
@@ -58,7 +61,7 @@ const Login = () => {
           </p>
         </div>
 
-        {/* Formulário */}
+        {/* Formulário de login */}
         <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
           {error && (
             <div className="text-red-500 text-sm text-center">{error}</div>
