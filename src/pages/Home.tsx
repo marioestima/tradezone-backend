@@ -14,7 +14,7 @@ const Startup = () => {
         <div className="flex flex-col items-center pt-16 text-center">
           <div className="flex items-center gap-2">
             <svg
-              className="h-8 w-8 text-primary"
+              className="h-8 w-8 text-[#25F436]"
               fill="none"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ const Startup = () => {
         {/* Botões */}
         <div className="flex w-full flex-col gap-4 pb-8 max-w-md mx-auto">
           <button
-            className="flex h-14 w-full items-center justify-center rounded-xl bg-primary px-5 text-black text-base font-bold hover:opacity-90 transition"
+            className="flex h-14 w-full items-center justify-center rounded-xl bg-[#36853d] px-5 text-white text-base font-bold hover:opacity-90 transition"
             onClick={() => navigate("/register")}
           >
             Registrar
