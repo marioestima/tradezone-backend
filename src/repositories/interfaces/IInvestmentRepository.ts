@@ -1,5 +1,4 @@
 import { Investment } from "@prisma/client";
-
 export interface IInvestmentRepository {
   create(data: {
     userId: number;
@@ -13,5 +12,8 @@ export interface IInvestmentRepository {
 
   findByUser(userId: number): Promise<Investment[]>;
 
-  update(amout: number, active: boolean): Promise<Investment>;
+  update(
+    id: number,
+    data: { amount?: number; active?: boolean }
+  ): Promise<Investment>;
 }

@@ -2,6 +2,8 @@
 
 export interface CreateInvestmentDTO {
   userId: number;
+  accumulated: number;
+  active: boolean;
   planId: number;
   amount: number;
 }

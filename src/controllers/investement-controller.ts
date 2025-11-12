@@ -1,14 +1,29 @@
 import { Request, Response } from "express";
 import { PrismaInvestmentRepository } from "../repositories/prisma/investement-repository";
-import { InvestmentService } from "../services/investement-service  ";
+import { PrismaWalletRepository } from "../repositories/prisma/prismawallet-repository";
+import { InvestmentService } from "../services/investement-service";
 
 const investmentRepository = new PrismaInvestmentRepository();
-const investmentService = new InvestmentService(investmentRepository);
+const walletRepository = new PrismaWalletRepository();
+const investmentService = new InvestmentService(
+  investmentRepository,
+  walletRepository
+);
 
 export class InvestmentController {
   async create(req: Request, res: Response) {
     try {
-      const investment = await investmentService.createInvestment(req.body);
+      const userId = req.user?.userId;
+      const { planId, amount } = req.body;
+
+      if (!userId) return res.status(401).json({ message: "Não autenticado." });
+
+      const investment = await investmentService.createInvestment({
+        userId,
+        planId,
+        amount,
+      });
+
       res.status(201).json(investment);
     } catch (error: any) {
       res.status(400).json({ message: error.message });

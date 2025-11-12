@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaUserRepository } from "../repositories/prisma/user-repository";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import { UserService } from "../services/user-service";
+dotenv.config();
 
 const userRepository = new PrismaUserRepository();
 const userService = new UserService(userRepository);
+const JWT = process.env.JWT_SECRET;
 
 export class UserController {
   async create(req: Request, res: Response) {
@@ -20,7 +24,17 @@ export class UserController {
       const user = await userService.login(req.body);
       if (!user)
         return res.status(401).json({ message: "Invalid credentials" });
-      res.json(user);
+
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username: user.name,
+          email: user.email,
+        },
+        JWT!,
+        { expiresIn: "2d" }
+      );
+      res.json({ user, token });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
