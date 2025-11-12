@@ -1,3 +1,4 @@
+// src/pages/Login.tsx
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Mail, Lock } from "lucide-react";
@@ -17,7 +18,6 @@ const Login = () => {
 
     try {
       await login(email, password);
-      // Redirecionamento será feito no AuthContext
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao fazer login");
     } finally {
@@ -36,7 +36,7 @@ const Login = () => {
         <div className="flex flex-col items-center text-center pt-8">
           <div className="flex items-center gap-2">
             <svg
-              className="h-8 w-8 text-primary"
+              className="h-8 w-8 text-[#25F436]"
               fill="none"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -54,8 +54,8 @@ const Login = () => {
 
         {/* Texto informativo */}
         <div className="flex flex-col items-center text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white">
-            Seu futuro financeiro começa aqui.
+          <h2 className="text-3xl font-bold tracking-tight text-[#25F436]">
+            Bem-vindo de volta! Faça login para continuar.
           </h2>
           <p className="mt-3 max-w-sm text-base font-normal text-gray-400">
             Acompanhe seus ganhos diários, gerencie seus planos e invista com
@@ -78,7 +78,7 @@ const Login = () => {
             <input
               type="email"
               placeholder="Seu e-mail / telefone"
-              className="w-full h-12 pl-11 pr-4 bg-gray-800/50 rounded-xl border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition text-sm"
+              className="w-full h-12 pl-11 pr-4 bg-gray-800/50 rounded-xl border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#25F436] transition text-sm"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -94,7 +94,7 @@ const Login = () => {
             <input
               type="password"
               placeholder="Sua senha"
-              className="w-full h-12 pl-11 pr-4 bg-gray-800/50 rounded-xl border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary transition text-sm"
+              className="w-full h-12 pl-11 pr-4 bg-gray-800/50 rounded-xl border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#25F436] transition text-sm"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -105,7 +105,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-black text-base font-bold tracking-wide hover:opacity-90 transition-transform hover:scale-[1.02]"
+            className="flex h-12 w-full items-center justify-center rounded-xl bg-[#36853D] text-black text-base font-bold tracking-wide hover:opacity-90 transition-transform hover:scale-[1.02]"
           >
             {loading ? "Entrando..." : "Entrar"}
           </button>
