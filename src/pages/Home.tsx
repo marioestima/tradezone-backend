@@ -1,7 +1,6 @@
-// src/pages/Startup.tsx
 import { useNavigate } from "react-router-dom";
 
-const Startup = () => {
+const Home = () => {
   const navigate = useNavigate();
 
   return (
@@ -67,4 +66,4 @@ const Startup = () => {
   );
 };
 
-export default Startup;
+export default Home;
