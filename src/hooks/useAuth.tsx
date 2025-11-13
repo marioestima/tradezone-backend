@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import { userService } from "../services/userService";
 
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -29,14 +31,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const data = await userService.login(email, password);  
+    const data = await userService.login(email, password);
+    navigate("/dashboard");
     setUser(data.user);
     localStorage.setItem("user", JSON.stringify(data.user));
     localStorage.setItem("token", data.token);
   };
 
   const register = async (name: string, email: string, phone: number, password: string) => {
-    const newUser = await userService.register(name, email, phone, password);  
+    const newUser = await userService.register(name, email, phone, password);
     setUser(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
   };
