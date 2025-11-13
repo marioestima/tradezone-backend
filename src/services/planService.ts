@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { api } from "./api";
 
 export interface Plan {
   id: number;
@@ -13,17 +11,17 @@ export interface Plan {
 
 export const planService = {
   getAll: async (): Promise<Plan[]> => {
-    const response = await axios.get(`${API_URL}/plans`);
+    const response = await api.get("/plans");
     return response.data;
   },
 
   getById: async (id: number): Promise<Plan> => {
-    const response = await axios.get(`${API_URL}/plans/${id}`);
+    const response = await api.get(`/plans/${id}`);
     return response.data;
   },
 
   create: async (plan: Omit<Plan, "id" | "createdAt">): Promise<Plan> => {
-    const response = await axios.post(`${API_URL}/plans`, plan);
+    const response = await api.post("/plans", plan);
     return response.data;
   },
 };

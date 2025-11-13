@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { api } from "./api";
 
 export interface Investment {
   id: number;
@@ -19,7 +17,7 @@ export const investmentService = {
     planId: number,
     amount: number
   ): Promise<Investment> => {
-    const response = await axios.post(`${API_URL}/investments`, {
+    const response = await api.post("/investments", {
       userId,
       planId,
       amount,
@@ -28,18 +26,17 @@ export const investmentService = {
   },
 
   getActiveByUser: async (userId: number): Promise<Investment[]> => {
-    const response = await axios.get(`${API_URL}/investments/active/${userId}`);
+    const response = await api.get(`/investments/active/${userId}`);
     return response.data;
-  },
+  },  
 
   incrementAccumulated: async (
     id: number,
     value: number
   ): Promise<Investment> => {
-    const response = await axios.patch(
-      `${API_URL}/investments/${id}/increment`,
-      { value }
-    );
+    const response = await api.patch(`/investments/${id}/increment`, {
+      value,
+    });
     return response.data;
   },
 };

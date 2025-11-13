@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { api } from "./api";
 
 export interface Transaction {
   id: number;
@@ -14,14 +12,14 @@ export interface Transaction {
 
 export const transactionService = {
   getByUser: async (userId: number): Promise<Transaction[]> => {
-    const response = await axios.get(`${API_URL}/transactions/user/${userId}`);
+    const response = await api.get(`/transactions/user/${userId}`);
     return response.data;
   },
 
   create: async (
     transaction: Omit<Transaction, "id" | "createdAt">
   ): Promise<Transaction> => {
-    const response = await axios.post(`${API_URL}/transactions`, transaction);
+    const response = await api.post("/transactions", transaction);
     return response.data;
   },
 };

@@ -1,7 +1,5 @@
-import axios from "axios";
 import type { User } from "../hooks/useAuth";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { api } from "./api";
 
 interface LoginResponse {
   user: User;
@@ -10,10 +8,7 @@ interface LoginResponse {
 
 export const userService = {
   login: async (email: string, password: string): Promise<LoginResponse> => {
-    const response = await axios.post(`${API_URL}/auth/login`, {
-      email,
-      password,
-    });
+    const response = await api.post("/login", { email, password });
     return response.data;
   },
 
@@ -23,7 +18,7 @@ export const userService = {
     phone: number,
     password: string
   ): Promise<User> => {
-    const response = await axios.post(`${API_URL}/auth/register`, {
+    const response = await api.post("/register", {
       name,
       email,
       phone,
@@ -33,12 +28,12 @@ export const userService = {
   },
 
   getUser: async (id: number): Promise<User> => {
-    const response = await axios.get(`${API_URL}/users/${id}`);
+    const response = await api.get(`/users/${id}`);
     return response.data;
   },
 
   getAllUsers: async (): Promise<User[]> => {
-    const response = await axios.get(`${API_URL}/users`);
+    const response = await api.get("/users");
     return response.data;
   },
 };

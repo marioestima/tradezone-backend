@@ -93,8 +93,7 @@ const Login = () => {
             </button>
           </div>
 
-          {/* Botão de login */}
-          {/* Botão de login */}
+     
           <button
             type="submit"
             disabled={loading}
