@@ -206,15 +206,15 @@ const Dashboard = () => {
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
                     <TrendingUp size={16} className="text-green-500" />
-                    <p>Lucro Diário: <span className="text-green-500 font-semibold">KZ 750,00</span></p>
+                    <p className="text-white">Lucro Diário: <span className="text-green-500 font-semibold">KZ 750,00</span></p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar size={16} className="text-green-500" />
-                    <p>Lucro Mensal: <span className="text-green-500 font-semibold">KZ 22.500,00</span></p>
+                    <p className="text-white">Lucro Mensal: <span className="text-green-500 font-semibold">KZ 22.500,00</span></p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Coins size={16} className="text-green-500" />
-                    <p>Investimento: <span className="text-green-500 font-semibold">KZ {selectedPlan?.amount.toLocaleString()}</span></p>
+                    <p className="text-white">Investimento: <span className="text-green-500 font-semibold">KZ {selectedPlan?.amount.toLocaleString()}</span></p>
                   </div>
                 </div>
 
