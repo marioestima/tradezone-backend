@@ -1,12 +1,13 @@
-import AppRoutes from "./routes/AppRoutes"
- 
+import React from "react";
+import AppRoutes from "./routes/AppRoutes";
+import { AuthProvider } from "./hooks/useAuth";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <>
+    <AuthProvider>
       <AppRoutes />
-    </>
-  )
-}
+    </AuthProvider>
+  );
+};
 
-export default App
+export default App;
