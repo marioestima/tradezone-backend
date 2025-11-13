@@ -22,6 +22,8 @@ export class InvestmentController {
         userId,
         planId,
         amount,
+        accumulated: 0, // valor inicial
+        active: true, // investimento começa ativo
       });
 
       res.status(201).json(investment);
