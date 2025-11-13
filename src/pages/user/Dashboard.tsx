@@ -1,6 +1,6 @@
-// App.tsx
+// src/pages/user/Dashboard.tsx
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Home, BarChart2, Wallet, User } from "lucide-react";
 
 // Tipagem dos planos
@@ -12,6 +12,7 @@ interface Plan {
   dailyProfitPercent: number;
 }
 
+// Tipagem do usuário
 interface UserData {
   name: string;
   totalInvested: number;
@@ -153,15 +154,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-// Router principal
-const App: React.FC = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/*" element={<Dashboard />} />
-      </Routes>
-    </Router>
-  );
-};
-
-export default App;
+export default Dashboard;
