@@ -42,7 +42,7 @@ export default function Plans() {
   ).filter((p) => p.id.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-background-dark text-white font-display pb-24">
+    <div className="relative flex min-h-screen flex-col bg-[#0A0A0A]  text-white font-display pb-24">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-2 border-b border-white/10">
         <div className="flex items-center">
