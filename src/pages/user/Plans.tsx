@@ -51,12 +51,16 @@ export default function Plans() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-2 border-b border-white/10">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold flex-1">Meus Planos</h1>
-          <div className="flex items-center gap-2">
-            <button className="flex size-10 items-center justify-center rounded-full text-zinc-400 hover:bg-white/10">
-              <Bell size={20} />
-            </button>
-
+          <h1 className="text-lg font-bold">Meus Planos</h1>
+          <div className="relative">
+            <a href="/notificacoes" className="text-zinc-100">
+              <Bell size={24} />
+            </a>
+            {notifications > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-500 text-[10px] font-bold text-white">
+                {notifications}
+              </span>
+            )}
           </div>
         </div>
       </header>
@@ -74,7 +78,7 @@ export default function Plans() {
             >
               Planos Abertos
             </button>
-            
+
             <button
               onClick={() => setFilter("Fechados")}
               className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Fechados"
