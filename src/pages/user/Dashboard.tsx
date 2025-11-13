@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
-  const [user, setUser] = useState("")
-  setUser("Mario Estima")
-  return (
-    <div className='bg-red-500'>Dashboard {user}</div>
-  )
-}
+  const [user, setUser] = useState("");
 
-export default Dashboard
+  useEffect(() => {
+    setUser("Mario Estima");
+  }, []); // executa apenas uma vez, ao montar o componente
+
+  return <div className="bg-red-500">Dashboard {user}</div>;
+};
+
+export default Dashboard;
