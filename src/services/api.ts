@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // Base da API (Render ou Local)
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL =
+  import.meta.env.VITE_API_URL! || "https://tradezone-api-v1.onrender.com";
 
 // Cria uma instância do Axios
 export const api = axios.create({
