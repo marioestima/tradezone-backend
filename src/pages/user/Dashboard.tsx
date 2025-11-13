@@ -25,9 +25,9 @@ interface UserData {
 const Dashboard: React.FC = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  // Simula chamada à API
   useEffect(() => {
     const fetchData = async () => {
+      // Simula chamada à API
       await new Promise((res) => setTimeout(res, 500));
 
       const data: UserData = {
@@ -63,8 +63,7 @@ const Dashboard: React.FC = () => {
             <div
               className="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage:
-                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDaua3ZJo-aK_ROmAmJ9xUv94ROudmtfQqzK1IqipBDvD8AWn9KQ1mI-WTgUha-SMzEOM9w4Vhm9B89QUrNTCfMpBCvhpPsbiYo75rFFb4jl7w7bM0LiF2DK0TXjpBoerjl1KaAfXmcgQfKEfjaAcfHTHnkEvekGS47B5sNJ5EDXOafynRja0WIcfx6n0MLIFVLuUdsUwFS7QCgaUwA-3m_zpiEuLLH_viRjjCbwVDWOlwva7Y-LkHYmIE1DH19_G3dBOyk2dCCzk6p")',
+                backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDaua3ZJo-aK_ROmAmJ9xUv94ROudmtfQqzK1IqipBDvD8AWn9KQ1mI-WTgUha-SMzEOM9w4Vhm9B89QUrNTCfMpBCvhpPsbiYo75rFFb4jl7w7bM0LiF2DK0TXjpBoerjl1KaAfXmcgQfKEfjaAcfHTHnkEvekGS47B5sNJ5EDXOafynRja0WIcfx6n0MLIFVLuUdsUwFS7QCgaUwA-3m_zpiEuLLH_viRjjCbwVDWOlwva7Y-LkHYmIE1DH19_G3dBOyk2dCCzk6p")',
               }}
             ></div>
           </div>
@@ -132,19 +131,19 @@ const Dashboard: React.FC = () => {
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 z-10 border-t border-zinc-800 bg-background-dark/80 px-4 pt-3 pb-6 backdrop-blur-sm">
         <div className="mx-auto grid max-w-md grid-cols-4 items-center justify-items-center gap-2">
-          <Link to="/home" className="flex flex-col items-center justify-center gap-1 text-primary">
+          <Link to="/" className="flex flex-col items-center justify-center gap-1 text-primary">
             <Home size={20} />
             <span className="text-[11px] font-bold">Início</span>
           </Link>
-          <Link to="/planos" className="flex flex-col items-center justify-center gap-1 text-zinc-400">
+          <Link to="/plans" className="flex flex-col items-center justify-center gap-1 text-zinc-400">
             <BarChart2 size={20} />
             <span className="text-[11px] font-bold">Planos</span>
           </Link>
-          <Link to="/carteira" className="flex flex-col items-center justify-center gap-1 text-zinc-400">
+          <Link to="/wallet" className="flex flex-col items-center justify-center gap-1 text-zinc-400">
             <Wallet size={20} />
             <span className="text-[11px] font-bold">Carteira</span>
           </Link>
-          <Link to="/perfil" className="flex flex-col items-center justify-center gap-1 text-zinc-400">
+          <Link to="/profile" className="flex flex-col items-center justify-center gap-1 text-zinc-400">
             <User size={20} />
             <span className="text-[11px] font-bold">Perfil</span>
           </Link>
