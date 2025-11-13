@@ -20,7 +20,7 @@ interface Plan {
   dailyProfit: number;
 }
 
-const Plans = () => {
+export default function Plans() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [filter, setFilter] = useState<"Abertos" | "Fechados">("Abertos");
   const [search, setSearch] = useState("");
@@ -36,10 +36,9 @@ const Plans = () => {
     setPlans(fakePlans);
   }, []);
 
-  const filteredPlans = plans.filter((p) =>
-    filter === "Abertos"
-      ? p.status !== "Fechado"
-      : p.status === "Fechado"
+  const filteredPlans = plans.filter((p) => filter === "Abertos"
+    ? p.status !== "Fechado"
+    : p.status === "Fechado"
   ).filter((p) => p.id.toLowerCase().includes(search.toLowerCase()));
 
   return (
@@ -67,8 +66,7 @@ const Plans = () => {
               onClick={() => setFilter("Abertos")}
               className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Abertos"
                 ? "bg-background-dark text-white shadow-sm"
-                : "text-zinc-500 hover:text-zinc-300"
-                }`}
+                : "text-zinc-500 hover:text-zinc-300"}`}
             >
               Planos Abertos
             </button>
@@ -76,8 +74,7 @@ const Plans = () => {
               onClick={() => setFilter("Fechados")}
               className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Fechados"
                 ? "bg-background-dark text-white shadow-sm"
-                : "text-zinc-500 hover:text-zinc-300"
-                }`}
+                : "text-zinc-500 hover:text-zinc-300"}`}
             >
               Planos Fechados
             </button>
@@ -90,8 +87,7 @@ const Plans = () => {
               placeholder="Buscar por número do plano"
               className="flex-1 bg-transparent outline-none text-sm text-white placeholder:text-zinc-500"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+              onChange={(e) => setSearch(e.target.value)} />
           </div>
         </div>
 
@@ -100,13 +96,10 @@ const Plans = () => {
           {filteredPlans.map((plan) => (
             <div
               key={plan.id}
-              onClick={() =>
-                plan.status !== "Fechado" ? setSelectedPlan(plan) : null
-              }
+              onClick={() => plan.status !== "Fechado" ? setSelectedPlan(plan) : null}
               className={`flex flex-col rounded-xl p-4 border border-neutral-800 transition-all ${plan.status === "Fechado"
                 ? "bg-zinc-900 opacity-60 hover:opacity-80"
-                : "bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]"
-                }`}
+                : "bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]"}`}
             >
               <div className="flex items-start justify-between">
                 <p className="text-sm text-zinc-400 font-medium">
@@ -117,16 +110,14 @@ const Plans = () => {
                     ? "bg-green-500/20 text-green-400"
                     : plan.status === "Pendente"
                       ? "bg-orange-500/20 text-orange-400"
-                      : "bg-zinc-700/20 text-zinc-500"
-                    }`}
+                      : "bg-zinc-700/20 text-zinc-500"}`}
                 >
                   <div
                     className={`size-1.5 rounded-full ${plan.status === "Ativo"
                       ? "bg-green-400"
                       : plan.status === "Pendente"
                         ? "bg-orange-400"
-                        : "bg-zinc-500"
-                      }`}
+                        : "bg-zinc-500"}`}
                   ></div>
                   {plan.status}
                 </div>
@@ -146,8 +137,7 @@ const Plans = () => {
                     <p
                       className={`text-base font-semibold ${plan.dailyProfit > 0
                         ? "text-green-400"
-                        : "text-red-500"
-                        }`}
+                        : "text-red-500"}`}
                     >
                       {plan.dailyProfit > 0 ? "+" : ""}
                       Kz {Math.abs(plan.dailyProfit).toFixed(2)}
@@ -262,6 +252,6 @@ const Plans = () => {
       </Transition>
     </div>
   );
-};
+}
 
-export default Plans;
+ 
