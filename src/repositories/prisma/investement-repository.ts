@@ -1,7 +1,7 @@
 // src/repositories/prisma/PrismaInvestmentRepository.ts
-
 import { prisma } from "../../prisma/client";
 import { Investment } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/library";
 import { IInvestmentRepository } from "../../repositories/interfaces/IInvestmentRepository";
 
 export class PrismaInvestmentRepository implements IInvestmentRepository {
@@ -40,11 +40,18 @@ export class PrismaInvestmentRepository implements IInvestmentRepository {
   // Atualiza um investimento (ex: desativar, alterar valor etc.)
   async update(
     id: number,
-    data: { amount?: number; active?: boolean }
-  ): Promise<Investment> {
+    data: {
+      amount?: number | Decimal;
+      active?: boolean;
+      accumulated?: Decimal;
+    }
+  ) {
     return prisma.investment.update({
       where: { id },
       data,
     });
+  }
+  async findAllActive(): Promise<Investment[]> {
+    return prisma.investment.findMany({ where: { active: true } });
   }
 }

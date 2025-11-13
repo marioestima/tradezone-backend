@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import routes from "../src/routes/index";
 import dotenv from "dotenv";
 import cors from "cors";
+import "./jobs/dailyProfit"
 
 dotenv.config();
 const app = express();
