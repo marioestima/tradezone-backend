@@ -1,6 +1,6 @@
-import { useState } from "react";
+ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { TrendingUp, Lock, CheckCircle2, Home, Wallet, User, BarChart3 } from "lucide-react";
+import { TrendingUp, Lock, CheckCircle, Home, Wallet, User, BarChart3 } from "lucide-react";
 import { LineChart, Line, ResponsiveContainer, Tooltip } from "recharts";
 
 const Dashboard = () => {
@@ -19,14 +19,14 @@ const Dashboard = () => {
   const [user] = useState("Mário Estima");
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-background-dark text-white font-display">
+    <div className="relative flex min-h-screen w-full flex-col bg-[#0A0A0A] text-white font-display">
       {/* Topbar */}
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-background-dark/80 p-4 pb-2 backdrop-blur-sm">
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-[#0A0A0A]/80 p-4 pb-2 backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-zinc-800">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-800">
             <User size={28} />
           </div>
-          <h2 className="flex-1 text-lg font-bold tracking-tight text-zinc-100">
+          <h2 className="flex-1 text-lg font-bold leading-tight tracking-[-0.015em] text-zinc-100">
             Olá, {user}
           </h2>
         </div>
@@ -43,60 +43,55 @@ const Dashboard = () => {
         <div className="mt-4 flex flex-col gap-4 rounded-xl bg-zinc-900 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-zinc-400">Valor Total Investido</p>
-              <p className="text-2xl font-bold text-white">25.480,50 Kz</p>
+              <p className="text-sm font-medium leading-normal text-zinc-400">Valor Total Investido</p>
+              <p className="text-2xl font-bold leading-tight tracking-tight text-white">25.480,50 Kz</p>
             </div>
             <div className="h-10 w-px bg-zinc-700"></div>
             <div className="text-right">
-              <p className="text-sm font-medium text-zinc-400">Lucro Total</p>
-              <p className="text-2xl font-bold text-primary">3.120,75 Kz</p>
+              <p className="text-sm font-medium leading-normal text-zinc-400">Lucro Total</p>
+              <p className="text-2xl font-bold leading-tight tracking-tight text-primary">3.120,75 Kz</p>
             </div>
           </div>
         </div>
 
         {/* Lucro diário + gráfico */}
-        <section className="mt-6 flex flex-col gap-2 rounded-xl bg-zinc-900 p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-base font-medium text-zinc-400">Lucro Diário</p>
-            <div className="flex items-center gap-1 text-primary text-sm">
-              <TrendingUp size={16} />
-              +2.5%
+        <section className="mt-6 flex min-w-72 flex-col gap-2 rounded-xl bg-zinc-900 p-4">
+          <p className="text-base font-medium leading-normal text-zinc-400">Lucro Diário</p>
+          <p className="truncate text-[32px] font-bold leading-tight tracking-tighter text-white">150,30 Kz</p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-normal leading-normal text-zinc-500">Últimos 7 dias</p>
+            <div className="flex items-center gap-1">
+              <TrendingUp size={16} className="text-primary" />
+              <p className="text-sm font-medium leading-normal text-primary">+2.5%</p>
             </div>
           </div>
-          <p className="text-[32px] font-bold text-white">150,30 Kz</p>
-
-          <div className="mt-4 h-40">
+          <div className="flex min-h-[180px] flex-1 flex-col gap-6 py-4">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
                 <defs>
-                  <linearGradient id="profitColor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#25f436" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#25f436" stopOpacity={0} />
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0.05" stopColor="#25f436" stopOpacity={0.2} />
+                    <stop offset="0.95" stopColor="#25f436" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <Line
-                  type="monotone"
-                  dataKey="profit"
-                  stroke="#25f436"
-                  strokeWidth={3}
-                  dot={false}
-                />
+                <Line type="monotone" dataKey="profit" stroke="#25f436" strokeWidth={3} dot={false} />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#111",
-                    border: "none",
-                    color: "#25f436",
-                  }}
+                  contentStyle={{ backgroundColor: "#111", border: "none", color: "#25f436" }}
                 />
               </LineChart>
             </ResponsiveContainer>
+            <div className="flex justify-around text-[13px] font-bold leading-normal tracking-[0.015em] text-zinc-500">
+              {chartData.map((item) => (
+                <p key={item.day} className={item.day === "H" ? "text-white" : ""}>{item.day}</p>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Badges */}
-        <div className="mt-6 flex flex-wrap gap-4">
-          <Badge label="Planos Ativos" value="5" color="green" icon={<CheckCircle2 size={16} />} />
-          <Badge label="Planos Fechados" value="12" color="red" icon={<Lock size={16} />} />
+        {/* Planos */}
+        <div className="flex flex-wrap gap-4 mt-6">
+          <PlanBadge label="Planos Ativos" value="5" icon={<CheckCircle size={16} className="text-green-400" />} />
+          <PlanBadge label="Planos Fechados" value="12" icon={<Lock size={16} className="text-red-400" />} />
         </div>
       </main>
 
@@ -107,10 +102,12 @@ const Dashboard = () => {
 };
 
 /* ------------------- COMPONENTES ------------------- */
-const Badge = ({ label, value, color, icon }: { label: string; value: string; color: string; icon?: React.ReactNode }) => (
-  <div className={`flex flex-1 items-center justify-between rounded-xl bg-zinc-900 p-4 shadow-md border-l-4 ${color === "green" ? "border-green-500 text-green-400" : "border-red-500 text-red-400"}`}>
-    <div className="flex items-center gap-2 text-sm font-medium">{icon}{label}</div>
-    <span className="text-lg font-bold">{value}</span>
+const PlanBadge = ({ label, value, icon }: { label: string; value: string; icon?: React.ReactNode }) => (
+  <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl bg-zinc-900 p-4">
+    <p className="text-base font-medium leading-normal text-zinc-400 flex items-center gap-1">
+      {label} {icon}
+    </p>
+    <p className="text-2xl font-bold leading-tight tracking-tight text-white">{value}</p>
   </div>
 );
 
@@ -123,7 +120,7 @@ const FooterNav = ({ location }: { location: any }) => {
   ];
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-zinc-800 bg-background-dark/80 px-4 pt-3 pb-6 backdrop-blur-sm">
+    <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-zinc-800 bg-[#0A0A0A]/80 px-4 pt-3 pb-6 backdrop-blur-sm">
       <div className="mx-auto grid max-w-md grid-cols-4 items-center justify-items-center gap-2">
         {navItems.map(({ label, to, icon }) => {
           const isActive = location.pathname === to;
