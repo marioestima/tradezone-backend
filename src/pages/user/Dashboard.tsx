@@ -25,10 +25,10 @@ type LucroData = {
 const Dashboard = () => {
   const [dados, setDados] = useState<LucroData[]>([]);
   const [planos, setPlanos] = useState<Plano[]>([]);
-  const [notificacoes, setNotificacoes] = useState<number>(3); // Mock de notificações
-  const user = "tradezoner"
+  const [notificacoes, setNotificacoes] = useState<number>(3);
+  const user = "tradezoner";
 
-  // Simula chamada à API
+  // Mock de dados simulando API
   useEffect(() => {
     setTimeout(() => {
       setPlanos([
@@ -51,19 +51,18 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-[#0A0A0A] font-display">
-      {/* Header */}
-      {/* Header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between bg-[#0A0A0A]/80 p-4 backdrop-blur-sm">
+    <div className="relative flex min-h-screen w-full flex-col bg-[#0A0A0A] font-display text-white">
+      {/* HEADER */}
+      <header className="sticky top-0 z-10 flex items-center justify-between bg-[#0A0A0A]/70 p-4 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div
-            className="h-10 w-10 rounded-full bg-cover bg-center"
+            className="h-10 w-10 rounded-full bg-cover bg-center border border-zinc-700"
             style={{
               backgroundImage:
                 "url(https://lh3.googleusercontent.com/aida-public/AB6AXuDaua3ZJo-aK_ROmAmJ9xUv94ROudmtfQqzK1IqipBDvD8AWn9KQ1mI-WTgUha-SMzEOM9w4Vhm9B89QUrNTCfMpBCvhpPsbiYo75rFFb4jl7w7bM0LiF2DK0TXjpBoerjl1KaAfXmcgQfKEfjaAcfHTHnkEvekGS47B5sNJ5EDXOafynRja0WIcfx6n0MLIFVLuUdsUwFS7QCgaUwA-3m_zpiEuLLH_viRjjCbwVDWOlwva7Y-LkHYmIE1DH19_G3dBOyk2dCCzk6p)",
             }}
           />
-          <h2 className="text-lg font-bold text-white">Olá, {user}</h2>
+          <h2 className="text-lg font-bold">Olá, {user}</h2>
         </div>
 
         {/* Notificações com badge */}
@@ -77,16 +76,16 @@ const Dashboard = () => {
             </span>
           )}
         </div>
-      </div>
+      </header>
 
-      {/* Main */}
+      {/* CONTEÚDO PRINCIPAL */}
       <main className="flex-1 px-4 py-2">
         {/* Totais */}
-        <div className="mt-4 flex flex-col gap-4 rounded-xl bg-zinc-900 p-4">
+        <section className="mt-4 flex flex-col gap-4 rounded-xl bg-zinc-900/70 p-4 backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-zinc-400">Valor Total Investido</p>
-              <p className="text-2xl font-bold text-white">25.480,50 Kz</p>
+              <p className="text-2xl font-bold">25.480,50 Kz</p>
             </div>
             <div className="h-10 w-px bg-zinc-700"></div>
             <div className="text-right">
@@ -94,19 +93,19 @@ const Dashboard = () => {
               <p className="text-2xl font-bold text-green-500">3.120,75 Kz</p>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Lucro Diário + Gráfico */}
-        <div className="mt-6 flex flex-col gap-2">
+        <section className="mt-6 flex flex-col gap-2 rounded-xl bg-zinc-900/70 p-4 backdrop-blur-sm">
           <p className="text-base font-medium text-zinc-400">Lucro Diário</p>
-          <p className="text-2xl font-bold text-white">150,30 Kz</p>
-          <div className="flex items-center gap-1">
-            <ArrowUp size={14} className="text-green-500" />
+          <p className="text-3xl font-bold text-white">150,30 Kz</p>
+          <div className="flex items-center gap-2">
+            <ArrowUp size={16} className="text-green-500" />
             <p className="text-sm font-medium text-green-500">+2.5%</p>
             <span className="text-sm text-zinc-500 ml-1">Últimos 7 dias</span>
           </div>
 
-          {/* Gráfico Recharts */}
+          {/* Gráfico */}
           <div className="mt-4 h-44 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dados}>
@@ -129,22 +128,20 @@ const Dashboard = () => {
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </section>
 
-        {/* Planos */}
-        <div className="mt-6 flex flex-col gap-4">
+        {/* LISTA DE PLANOS */}
+        <section className="mt-6 flex flex-col gap-4">
           {planos.map((plano) => (
             <div
               key={plano.id}
-              className="flex flex-col gap-4 rounded-xl bg-zinc-900 p-4"
+              className="flex flex-col gap-4 rounded-xl bg-zinc-900/70 p-4 backdrop-blur-sm border border-zinc-800"
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-white">
-                  Plano {plano.id}
-                </h3>
+                <h3 className="text-base font-bold">Plano {plano.id}</h3>
                 <div className="flex items-center gap-2">
                   <ArrowUp size={16} className="text-green-500" />
-                  <span className="px-2 py-1 text-xs font-bold text-white bg-green-500 rounded-full">
+                  <span className="px-2 py-1 text-xs font-bold text-white bg-green-500/80 rounded-full backdrop-blur-sm">
                     {plano.lucro}%
                   </span>
                 </div>
@@ -152,7 +149,7 @@ const Dashboard = () => {
               <div className="flex items-end justify-between">
                 <div>
                   <p className="text-sm text-zinc-400">Valor Aplicado</p>
-                  <p className="text-base font-medium text-white">
+                  <p className="text-base font-medium">
                     {plano.valor.toLocaleString()} Kz
                   </p>
                 </div>
@@ -165,39 +162,30 @@ const Dashboard = () => {
               </div>
             </div>
           ))}
-        </div>
+        </section>
       </main>
 
-      {/* Rodapé */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 border-t border-zinc-800 bg-[#0A0A0A]/90 px-4 pt-3 pb-6 backdrop-blur-sm">
+      {/* FOOTER */}
+      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-zinc-800 bg-[#0A0A0A]/70 px-4 pt-3 pb-6 backdrop-blur-md">
         <div className="mx-auto grid max-w-md grid-cols-4 items-center justify-items-center gap-2">
-          <a className="flex flex-col items-center text-green-500" href="/">
+          <a className="flex flex-col items-center text-green-500" href="/dashboard">
             <Home size={20} />
             <span className="text-[11px] font-bold">Início</span>
           </a>
-          <a
-            className="flex flex-col items-center text-zinc-400"
-            href="/plans"
-          >
+          <a className="flex flex-col items-center text-zinc-400 hover:text-green-500" href="/plans">
             <BarChart2 size={20} />
             <span className="text-[11px] font-bold">Planos</span>
           </a>
-          <a
-            className="flex flex-col items-center text-zinc-400"
-            href="/wallet"
-          >
+          <a className="flex flex-col items-center text-zinc-400 hover:text-green-500" href="/wallet">
             <Wallet size={20} />
             <span className="text-[11px] font-bold">Carteira</span>
           </a>
-          <a
-            className="flex flex-col items-center text-zinc-400"
-            href="/profile"
-          >
+          <a className="flex flex-col items-center text-zinc-400 hover:text-green-500" href="/profile">
             <User size={20} />
             <span className="text-[11px] font-bold">Perfil</span>
           </a>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
