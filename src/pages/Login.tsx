@@ -1,5 +1,6 @@
 // src/pages/Login.tsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +20,8 @@ const Login = () => {
 
     try {
       await login(email, password);
+      navigate("/dashboard");
+
       toast.success("Login efetuado com sucesso!");
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Erro ao fazer login");
@@ -93,7 +97,7 @@ const Login = () => {
             </button>
           </div>
 
-     
+
           <button
             type="submit"
             disabled={loading}
