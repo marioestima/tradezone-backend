@@ -12,9 +12,9 @@ import {
   Calendar,
   Coins,
   Home,
-  CreditCard,
-  Activity,
   User,
+  Wallet,
+  ActivityIcon,
 } from "lucide-react";
 
 interface Plan {
@@ -56,7 +56,7 @@ export default function Plans() {
             <button className="flex size-10 items-center justify-center rounded-full text-zinc-400 hover:bg-white/10">
               <Bell size={20} />
             </button>
-        
+
           </div>
         </div>
       </header>
@@ -67,21 +67,20 @@ export default function Plans() {
           <div className="flex h-12 items-center justify-center rounded-lg bg-zinc-900 p-1">
             <button
               onClick={() => setFilter("Abertos")}
-              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${
-                filter === "Abertos"
-                  ? "bg-background-dark text-white shadow-sm"
-                  : "text-zinc-500 hover:text-zinc-300"
-              }`}
+              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Abertos"
+                ? "bg-background-dark text-white shadow-sm"
+                : "text-zinc-500 hover:text-zinc-300"
+                }`}
             >
               Planos Abertos
             </button>
+            
             <button
               onClick={() => setFilter("Fechados")}
-              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${
-                filter === "Fechados"
-                  ? "bg-background-dark text-white shadow-sm"
-                  : "text-zinc-500 hover:text-zinc-300"
-              }`}
+              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Fechados"
+                ? "bg-background-dark text-white shadow-sm"
+                : "text-zinc-500 hover:text-zinc-300"
+                }`}
             >
               Planos Fechados
             </button>
@@ -105,31 +104,28 @@ export default function Plans() {
             <div
               key={plan.id}
               onClick={() => (plan.status !== "Fechado" ? setSelectedPlan(plan) : null)}
-              className={`flex flex-col rounded-xl p-4 border border-neutral-800 transition-all ${
-                plan.status === "Fechado"
-                  ? "bg-zinc-900 opacity-60 hover:opacity-80"
-                  : "bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]"
-              }`}
+              className={`flex flex-col rounded-xl p-4 border border-neutral-800 transition-all ${plan.status === "Fechado"
+                ? "bg-zinc-900 opacity-60 hover:opacity-80"
+                : "bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]"
+                }`}
             >
               <div className="flex items-start justify-between">
                 <p className="text-sm text-zinc-400 font-medium">Plano #{plan.id}</p>
                 <div
-                  className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
-                    plan.status === "Ativo"
-                      ? "bg-green-500/20 text-green-400"
-                      : plan.status === "Pendente"
+                  className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${plan.status === "Ativo"
+                    ? "bg-green-500/20 text-green-400"
+                    : plan.status === "Pendente"
                       ? "bg-orange-500/20 text-orange-400"
                       : "bg-zinc-700/20 text-zinc-500"
-                  }`}
+                    }`}
                 >
                   <div
-                    className={`size-1.5 rounded-full ${
-                      plan.status === "Ativo"
-                        ? "bg-green-400"
-                        : plan.status === "Pendente"
+                    className={`size-1.5 rounded-full ${plan.status === "Ativo"
+                      ? "bg-green-400"
+                      : plan.status === "Pendente"
                         ? "bg-orange-400"
                         : "bg-zinc-500"
-                    }`}
+                      }`}
                   ></div>
                   {plan.status}
                 </div>
@@ -147,9 +143,8 @@ export default function Plans() {
                   <p className="text-xs text-zinc-400">Lucro Diário</p>
                   <div className="flex items-center gap-1.5">
                     <p
-                      className={`text-base font-semibold ${
-                        plan.dailyProfit > 0 ? "text-green-400" : "text-red-500"
-                      }`}
+                      className={`text-base font-semibold ${plan.dailyProfit > 0 ? "text-green-400" : "text-red-500"
+                        }`}
                     >
                       {plan.dailyProfit > 0 ? "+" : ""}
                       Kz {Math.abs(plan.dailyProfit).toFixed(2)}
@@ -176,23 +171,23 @@ export default function Plans() {
             className="flex flex-col items-center gap-1 text-green-500"
           >
             <Home className="w-5 h-5" />
-            <span className="text-sm font-bold">Dashboard</span>
+            <span className="text-[11px] font-bold">Dashboard</span>
           </Link>
 
           <Link
             to="/wallet"
             className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
           >
-            <CreditCard className="w-5 h-5" />
-            <span className="text-sm">Carteira</span>
+            <Wallet className="w-5 h-5" />
+            <span className="text-[11px] font-bold">Carteira</span>
           </Link>
 
           <Link
             to="/transactions"
             className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
           >
-            <Activity className="w-5 h-5" />
-            <span className="text-sm">Transações</span>
+            <ActivityIcon className="w-5 h-5" />
+            <span className="text-[11px] font-bold">Transações</span>
           </Link>
 
           <Link
@@ -200,7 +195,7 @@ export default function Plans() {
             className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
           >
             <User className="w-5 h-5" />
-            <span className="text-sm">Perfil</span>
+            <span className="text-[11px] font-bold">Perfil</span>
           </Link>
         </div>
       </div>
@@ -285,6 +280,7 @@ export default function Plans() {
           </div>
         </Dialog>
       </Transition>
+
     </div>
   );
 }
