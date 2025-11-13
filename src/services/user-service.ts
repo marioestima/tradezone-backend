@@ -7,8 +7,21 @@ export class UserService {
   constructor(private userRepository: IUserRepository) {}
 
   async createUser(data: CreateUserDto): Promise<User> {
-    const hanshedPassword = await bcrypt.hash(data.password, 10);
-    return this.userRepository.create({ ...data, password: hanshedPassword });
+    // Verifica se já existe um usuário com o mesmo email
+    const existingUser = await this.userRepository.findByEmail(data.email);
+
+    if (existingUser) {
+      throw new Error("Ja esta registrado");
+    }
+
+    // Criptografa a senha
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    // Cria o novo usuário
+    return this.userRepository.create({
+      ...data,
+      password: hashedPassword,
+    });
   }
 
   async updateUser(id: number, data: UpdateUserDto): Promise<User> {
