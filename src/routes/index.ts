@@ -8,7 +8,7 @@ import transactionRoutes from "./transaction.routes";
 const router = Router();
 
 // Rotas públicas
-router.use("/", userRoutes);
+router.use("/auth", userRoutes);
 
 // Rotas protegidas
 router.use("/plans", planRoutes);
