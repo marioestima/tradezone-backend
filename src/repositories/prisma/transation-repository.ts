@@ -1,5 +1,5 @@
 // src/repositories/PrismaTransactionRepository.ts
-import { prisma } from "../../../prisma/client";
+import { prisma } from "../../prisma/client";
 import { Transaction } from "@prisma/client";
 import { ITransactionRepository } from "../interfaces/ITransactionRepository";
 
