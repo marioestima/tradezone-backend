@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { Link } from "react-router-dom";
 import {
   Bell,
   Plus,
@@ -7,6 +8,7 @@ import {
   MoreVertical,
   ArrowUp,
   ArrowDown,
+  X,
   TrendingUp,
   Calendar,
   Coins,
@@ -14,7 +16,6 @@ import {
   CreditCard,
   Activity,
   User,
-  X,
 } from "lucide-react";
 
 interface Plan {
@@ -30,6 +31,7 @@ export default function Plans() {
   const [search, setSearch] = useState("");
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
 
+  // Simula chamada à API
   useEffect(() => {
     const fakePlans: Plan[] = [
       { id: "TZ12345", status: "Ativo", investment: 10000, dailyProfit: 75.5 },
@@ -55,9 +57,7 @@ export default function Plans() {
             <button className="flex size-10 items-center justify-center rounded-full text-zinc-400 hover:bg-white/10">
               <Bell size={20} />
             </button>
-            <button className="flex h-10 items-center justify-center gap-2 rounded-full bg-green-500 px-4 text-background-dark text-sm font-bold hover:bg-green-600">
-              <Plus size={16} /> Novo
-            </button>
+        
           </div>
         </div>
       </header>
@@ -68,19 +68,21 @@ export default function Plans() {
           <div className="flex h-12 items-center justify-center rounded-lg bg-zinc-900 p-1">
             <button
               onClick={() => setFilter("Abertos")}
-              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Abertos"
-                ? "bg-background-dark text-white shadow-sm"
-                : "text-zinc-500 hover:text-zinc-300"
-                }`}
+              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${
+                filter === "Abertos"
+                  ? "bg-background-dark text-white shadow-sm"
+                  : "text-zinc-500 hover:text-zinc-300"
+              }`}
             >
               Planos Abertos
             </button>
             <button
               onClick={() => setFilter("Fechados")}
-              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${filter === "Fechados"
-                ? "bg-background-dark text-white shadow-sm"
-                : "text-zinc-500 hover:text-zinc-300"
-                }`}
+              className={`flex-1 h-full rounded-md text-sm font-medium transition-colors ${
+                filter === "Fechados"
+                  ? "bg-background-dark text-white shadow-sm"
+                  : "text-zinc-500 hover:text-zinc-300"
+              }`}
             >
               Planos Fechados
             </button>
@@ -103,33 +105,32 @@ export default function Plans() {
           {filteredPlans.map((plan) => (
             <div
               key={plan.id}
-              onClick={() =>
-                plan.status !== "Fechado" ? setSelectedPlan(plan) : null
-              }
-              className={`flex flex-col rounded-xl p-4 border border-neutral-800 transition-all ${plan.status === "Fechado"
-                ? "bg-zinc-900 opacity-60 hover:opacity-80"
-                : "bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]"
-                }`}
+              onClick={() => (plan.status !== "Fechado" ? setSelectedPlan(plan) : null)}
+              className={`flex flex-col rounded-xl p-4 border border-neutral-800 transition-all ${
+                plan.status === "Fechado"
+                  ? "bg-zinc-900 opacity-60 hover:opacity-80"
+                  : "bg-zinc-900 hover:bg-zinc-800 active:scale-[0.98]"
+              }`}
             >
               <div className="flex items-start justify-between">
-                <p className="text-sm text-zinc-400 font-medium">
-                  Plano #{plan.id}
-                </p>
+                <p className="text-sm text-zinc-400 font-medium">Plano #{plan.id}</p>
                 <div
-                  className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${plan.status === "Ativo"
-                    ? "bg-green-500/20 text-green-400"
-                    : plan.status === "Pendente"
+                  className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+                    plan.status === "Ativo"
+                      ? "bg-green-500/20 text-green-400"
+                      : plan.status === "Pendente"
                       ? "bg-orange-500/20 text-orange-400"
                       : "bg-zinc-700/20 text-zinc-500"
-                    }`}
+                  }`}
                 >
                   <div
-                    className={`size-1.5 rounded-full ${plan.status === "Ativo"
-                      ? "bg-green-400"
-                      : plan.status === "Pendente"
+                    className={`size-1.5 rounded-full ${
+                      plan.status === "Ativo"
+                        ? "bg-green-400"
+                        : plan.status === "Pendente"
                         ? "bg-orange-400"
                         : "bg-zinc-500"
-                      }`}
+                    }`}
                   ></div>
                   {plan.status}
                 </div>
@@ -147,8 +148,9 @@ export default function Plans() {
                   <p className="text-xs text-zinc-400">Lucro Diário</p>
                   <div className="flex items-center gap-1.5">
                     <p
-                      className={`text-base font-semibold ${plan.dailyProfit > 0 ? "text-green-400" : "text-red-500"
-                        }`}
+                      className={`text-base font-semibold ${
+                        plan.dailyProfit > 0 ? "text-green-400" : "text-red-500"
+                      }`}
                     >
                       {plan.dailyProfit > 0 ? "+" : ""}
                       Kz {Math.abs(plan.dailyProfit).toFixed(2)}
@@ -167,37 +169,40 @@ export default function Plans() {
         </div>
       </main>
 
-      {/* Footer fixa com ícones */}
+      {/* Footer fixa com links corretos */}
       <div className="fixed bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-md items-center justify-around px-4">
-          <a
-            href="/dashboard"
+          <Link
+            to="/dashboard"
             className="flex flex-col items-center gap-1 text-green-500"
           >
             <Home className="w-5 h-5" />
-            <span className="text-sm font-bold">Início</span>
-          </a>
-          <a
-            href="/wallet"
+            <span className="text-sm font-bold">Dashboard</span>
+          </Link>
+
+          <Link
+            to="/wallet"
             className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
           >
             <CreditCard className="w-5 h-5" />
             <span className="text-sm">Carteira</span>
-          </a>
-          <a
-            href="/transactions"
+          </Link>
+
+          <Link
+            to="/transactions"
             className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
           >
             <Activity className="w-5 h-5" />
             <span className="text-sm">Transações</span>
-          </a>
-          <a
-            href="/profile"
+          </Link>
+
+          <Link
+            to="/profile"
             className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
           >
             <User className="w-5 h-5" />
             <span className="text-sm">Perfil</span>
-          </a>
+          </Link>
         </div>
       </div>
 
