@@ -1,4 +1,4 @@
-import { Home, BarChart2, Wallet, User, ArrowUp, Bell, X, TrendingUp, Calendar, Coins } from "lucide-react";
+import { Home, BarChart2, Wallet, User, ArrowUp, X, TrendingUp, Calendar, Coins } from "lucide-react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import NavBar from "../../components/NavBar";
 
 // Tipos
 type Plan = {
@@ -27,9 +28,7 @@ type ProfitData = {
 const Dashboard = () => {
   const [chartData, setChartData] = useState<ProfitData[]>([]);
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [notifications, setNotifications] = useState<number>(3);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const username = "tradezoner";
   const location = useLocation(); // <--- para rota ativa
 
   // Mock API
@@ -51,37 +50,13 @@ const Dashboard = () => {
         { day: "S", profit: 70 },
         { day: "H", profit: 130 },
       ]);
-      setNotifications(3);
     }, 800);
   }, []);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-[#0A0A0A] font-display text-white">
       {/* CABEÇALHO */}
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-[#0A0A0A]/70 p-4 backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <div
-            className="h-10 w-10 rounded-full bg-cover bg-center border border-zinc-700"
-            style={{
-              backgroundImage:
-                "url(https://lh3.googleusercontent.com/a-/AOh14Gi_userphoto=s64)",
-            }}
-          />
-          <h2 className="text-lg font-bold">Olá, {username}</h2>
-        </div>
-
-        {/* Notificações */}
-        <div className="relative">
-          <a href="/notificacoes" className="text-zinc-100">
-            <Bell size={24} />
-          </a>
-          {notifications > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-500 text-[10px] font-bold text-white">
-              {notifications}
-            </span>
-          )}
-        </div>
-      </header>
+      <NavBar title="Painel de controle"/>
 
       {/* CONTEÚDO PRINCIPAL */}
       <main className="flex-1 px-4 py-2 pb-28">

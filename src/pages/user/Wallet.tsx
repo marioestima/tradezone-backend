@@ -9,17 +9,16 @@ import {
   TrendingUp,
   Plus,
   Home,
-  Monitor,
   Wallet,
   User,
   X,
+  BarChart,
 } from "lucide-react";
 import { Dialog, Transition } from "@headlessui/react";
 
 const WalletPage: React.FC = () => {
   const [balanceVisible, setBalanceVisible] = useState(false);
   const [filter, setFilter] = useState("all");
-  const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [withdrawModalOpen, setWithdrawModalOpen] = useState(false); // modal saque
 
   const transactions = [
@@ -138,19 +137,18 @@ const WalletPage: React.FC = () => {
             <button
               key={i}
               onClick={() => setFilter(f)}
-              className={`pb-1 ${
-                filter === f
-                  ? "text-green-400 border-green-400 border-b-2"
-                  : "text-gray-400"
-              }`}
+              className={`pb-1 ${filter === f
+                ? "text-green-400 border-green-400 border-b-2"
+                : "text-gray-400"
+                }`}
             >
               {f === "all"
                 ? "Tudo"
                 : f === "deposit"
-                ? "Depósitos"
-                : f === "withdraw"
-                ? "Saques"
-                : "Lucros"}
+                  ? "Depósitos"
+                  : f === "withdraw"
+                    ? "Saques"
+                    : "Lucros"}
             </button>
           ))}
         </div>
@@ -158,9 +156,8 @@ const WalletPage: React.FC = () => {
         {/* LISTA */}
         <div className="flex flex-col">
           {filteredTransactions.map((t) => (
-            <button
+            <div
               key={t.id}
-              onClick={() => setSelectedTransaction(t)}
               className="flex items-center gap-4 py-4 border-b border-gray-800 w-full text-left"
             >
               <div
@@ -175,9 +172,10 @@ const WalletPage: React.FC = () => {
               </div>
 
               <p className={`font-bold ${t.color}`}>{t.amount}</p>
-            </button>
+            </div>
           ))}
         </div>
+
       </main>
 
       {/* MODAL DE SAQUE */}
@@ -223,84 +221,7 @@ const WalletPage: React.FC = () => {
           </div>
         </Dialog>
       </Transition>
-
-      {/* MODAL DE TRANSAÇÃO */}
-      <Transition appear show={!!selectedTransaction} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-50"
-          onClose={() => setSelectedTransaction(null)}
-        >
-          <div className="fixed inset-0 bg-black/60" aria-hidden="true" />
-          <div className="fixed inset-0 flex items-end justify-center p-4">
-            <Transition.Child
-              as={Fragment}
-              enter="transform transition duration-200"
-              enterFrom="translate-y-full"
-              enterTo="translate-y-0"
-              leave="transform duration-200"
-              leaveFrom="translate-y-0"
-              leaveTo="translate-y-full"
-            >
-              <Dialog.Panel className="w-full max-w-md rounded-t-2xl bg-[#111] p-6 space-y-4">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-lg font-bold text-white">
-                    {selectedTransaction?.title}
-                  </h3>
-                  <button onClick={() => setSelectedTransaction(null)}>
-                    <X size={24} className="text-gray-400" />
-                  </button>
-                </div>
-
-                {selectedTransaction?.type === "deposit" && (
-                  <>
-                    <p className="text-gray-300">
-                      Selecione ou insira o valor do depósito.
-                    </p>
-
-                    <div className="grid grid-cols-3 gap-3">
-                      {[5000, 10000, 20000, 50000, 100000].map((v) => (
-                        <button
-                          key={v}
-                          className="bg-green-500/10 text-green-400 py-2 rounded-lg"
-                        >
-                          {v.toLocaleString()} Kz
-                        </button>
-                      ))}
-                    </div>
-
-                    <div>
-                      <p className="text-gray-400 text-sm mb-1">
-                        Ou insira outro valor
-                      </p>
-                      <input
-                        type="number"
-                        className="w-full bg-black border border-gray-700 rounded-lg p-2 text-white"
-                        placeholder="Valor do Depósito"
-                      />
-                    </div>
-
-                    <button className="w-full bg-green-500 text-black font-bold py-3 rounded-xl mt-2">
-                      Próxima Etapa (Pagar) ➡️
-                    </button>
-                  </>
-                )}
-
-                {selectedTransaction?.type === "profit" && (
-                  <>
-                    <p className="text-gray-300">
-                      Este valor refere-se ao rendimento do plano.
-                    </p>
-                    <p className="text-green-400 text-2xl font-bold">
-                      {selectedTransaction.amount}
-                    </p>
-                  </>
-                )}
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+ 
 
       {/* NAVBAR */}
       <nav className="fixed bottom-0 left-0 right-0 flex justify-around bg-background-dark/80 backdrop-blur-lg border-t border-gray-800 px-4 pb-4 pt-2">
@@ -312,28 +233,31 @@ const WalletPage: React.FC = () => {
           <span className="text-xs">Início</span>
         </Link>
 
-        <Link
-          to="/plans"
-          className="flex flex-col items-center gap-1 text-gray-400"
-        >
-          <Monitor size={22} />
-          <span className="text-xs">Planos</span>
-        </Link>
 
         <Link
           to="/wallet"
           className="flex flex-col items-center gap-1 text-green-400"
         >
           <Wallet size={22} />
-          <span className="text-xs font-bold">Carteira</span>
+          <span className="text-[11px] font-bold">Carteira</span>
         </Link>
+
+        <Link
+          to="/plans"
+          className="flex flex-col items-center gap-1 text-gray-400"
+        >
+          <BarChart size={20} />
+          <span className="text-[11px] font-bold">Planos</span>
+        </Link>
+
+
 
         <Link
           to="/profile"
           className="flex flex-col items-center gap-1 text-gray-400"
         >
           <User size={22} />
-          <span className="text-xs">Perfil</span>
+          <span className="text-[11px] font-bold">Perfil</span>
         </Link>
       </nav>
     </div>

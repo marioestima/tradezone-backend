@@ -2,7 +2,6 @@ import { useState, useEffect, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import {
-  Bell,
   Search,
   MoreVertical,
   ArrowUp,
@@ -16,7 +15,8 @@ import {
   Wallet,
   ActivityIcon,
 } from "lucide-react";
- 
+import NavBar from "../../components/NavBar";
+
 
 interface Plan {
   id: string;
@@ -30,8 +30,7 @@ export default function Plans() {
   const [filter, setFilter] = useState<"Abertos" | "Fechados">("Abertos");
   const [search, setSearch] = useState("");
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [notifications, setNotifications] = useState<number>(3);
-
+ 
 
   // Simula chamada à API
   useEffect(() => {
@@ -41,7 +40,6 @@ export default function Plans() {
       { id: "TZ54321", status: "Ativo", investment: 2500, dailyProfit: -5.1 },
     ];
     setPlans(fakePlans);
-    setNotifications(3)
   }, []);
 
   const filteredPlans = plans
@@ -53,21 +51,7 @@ export default function Plans() {
   return (
     <div className="relative flex min-h-screen flex-col bg-[#0A0A0A] text-white font-display pb-24">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background-dark/80 backdrop-blur-sm px-4 pt-4 pb-2 border-b border-white/10">
-        <div className="flex items-center">
-          <h1 className="text-lg font-bold">Meus Planos</h1>
-          <div className="relative">
-            <a href="/notificacoes" className="text-zinc-100">
-              <Bell size={24} />
-            </a>
-            {notifications > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-500 text-[10px] font-bold text-white">
-                {notifications}
-              </span>
-            )}
-          </div>
-        </div>
-      </header>
+      <NavBar title="Meus investimentos" />
 
       {/* Filtros e busca */}
       <main className="flex-1">
