@@ -10,10 +10,10 @@ import {
   TrendingUp,
   Calendar,
   Coins,
-  Home,
   User,
   Wallet,
   ActivityIcon,
+  BarChart2,
 } from "lucide-react";
 import NavBar from "../../components/NavBar";
 
@@ -30,7 +30,7 @@ export default function Plans() {
   const [filter, setFilter] = useState<"Abertos" | "Fechados">("Abertos");
   const [search, setSearch] = useState("");
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
- 
+
 
   // Simula chamada à API
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function Plans() {
   return (
     <div className="relative flex min-h-screen flex-col bg-[#0A0A0A] text-white font-display pb-24">
       {/* Header */}
-      <NavBar title="Meus investimentos" />
+      <NavBar title="Meus Planos" />
 
       {/* Filtros e busca */}
       <main className="flex-1">
@@ -156,14 +156,14 @@ export default function Plans() {
       </main>
 
       {/* Footer fixa com links corretos */}
-      <div className="fixed bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
+      <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-md items-center justify-around px-4">
           <Link
             to="/dashboard"
             className="flex flex-col items-center gap-1 text-green-500"
           >
-            <Home className="w-5 h-5" />
-            <span className="text-[11px] font-bold">Dashboard</span>
+            <BarChart2 size={20} />
+            <span className="text-[11px] font-bold">Planos</span>
           </Link>
 
           <Link
@@ -190,7 +190,7 @@ export default function Plans() {
             <span className="text-[11px] font-bold">Perfil</span>
           </Link>
         </div>
-      </div>
+      </footer>
 
       {/* Modal de investimento */}
       <Transition appear show={!!selectedPlan} as={Fragment}>

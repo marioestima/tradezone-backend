@@ -12,7 +12,7 @@ import {
   Wallet,
   User,
   X,
-  BarChart,
+  BarChart2,
 } from "lucide-react";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -87,7 +87,7 @@ const WalletPage: React.FC = () => {
       {/* MAIN */}
       <main className="flex-1 px-4 pb-24">
         {/* SALDO ESTILIZADO COMO CARTÃO */}
-        <section className="mt-3 rounded-2xl bg-linear-to-r from-indigo-700 via-purple-700 to-pink-600 p-6 relative overflow-hidden shadow-lg">
+        {/* <section className="mt-3 rounded-2xl bg-linear-to-r from-indigo-700 via-purple-700 to-pink-600 p-6 relative overflow-hidden shadow-lg">
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full rotate-45"></div>
           <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full rotate-12"></div>
 
@@ -108,7 +108,32 @@ const WalletPage: React.FC = () => {
           <p className="mt-6 text-gray-300 tracking-widest text-sm">
             **** **** **** 1234
           </p>
+        </section> */}
+        {/* SALDO ESTILIZADO COMO CARTÃO */}
+        <section className="mt-3 rounded-2xl bg-linear-to-r from-indigo-700 via-purple-700 to-pink-600 p-6 relative overflow-hidden shadow-lg">
+          <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full rotate-45"></div>
+          <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full rotate-12"></div>
+
+          <div className="flex items-center justify-between">
+            <p className="text-gray-200 text-sm">Saldo Disponível</p>
+
+            <button
+              onClick={() => setBalanceVisible(!balanceVisible)}
+              className="text-gray-200"
+            >
+              {balanceVisible ? <Eye size={22} /> : <EyeOff size={22} />}
+            </button>
+          </div>
+
+          <p className="mt-4 text-3xl sm:text-4xl font-bold text-white tracking-wider">
+            {balanceVisible ? "15.750,50 Kz" : "••••••••••"}
+          </p>
+
+          <p className="mt-6 text-gray-300 tracking-widest text-sm">
+            **** **** **** 1234
+          </p>
         </section>
+
 
         {/* BOTÕES */}
         <section className="flex gap-4 pt-6">
@@ -221,16 +246,16 @@ const WalletPage: React.FC = () => {
           </div>
         </Dialog>
       </Transition>
- 
+
 
       {/* NAVBAR */}
-      <nav className="fixed bottom-0 left-0 right-0 flex justify-around bg-background-dark/80 backdrop-blur-lg border-t border-gray-800 px-4 pb-4 pt-2">
+      <footer className="fixed bottom-0 left-0 right-0 flex justify-around bg-[#0A0A0A]/80 backdrop-blur-lg border-t border-gray-800 px-4 pb-4 pt-2">
         <Link
           to="/dashboard"
           className="flex flex-col items-center gap-1 text-gray-400"
         >
           <Home size={22} />
-          <span className="text-xs">Início</span>
+          <span className="text-[11px] font-bold">Início</span>
         </Link>
 
 
@@ -246,10 +271,9 @@ const WalletPage: React.FC = () => {
           to="/plans"
           className="flex flex-col items-center gap-1 text-gray-400"
         >
-          <BarChart size={20} />
+          <BarChart2 size={20} />
           <span className="text-[11px] font-bold">Planos</span>
         </Link>
-
 
 
         <Link
@@ -259,7 +283,7 @@ const WalletPage: React.FC = () => {
           <User size={22} />
           <span className="text-[11px] font-bold">Perfil</span>
         </Link>
-      </nav>
+      </footer>
     </div>
   );
 };
