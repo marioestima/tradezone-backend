@@ -56,7 +56,7 @@ const Dashboard = () => {
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-[#0A0A0A] font-display text-white">
       {/* CABEÇALHO */}
-      <NavBar title="Painel de controle"/>
+      <NavBar title="Painel de controle" />
 
       {/* CONTEÚDO PRINCIPAL */}
       <main className="flex-1 px-4 py-2 pb-28">
@@ -206,7 +206,7 @@ const Dashboard = () => {
 
       {/* RODAPÉ */}
       <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
-        <div className="mx-auto grid max-w-md grid-cols-4 items-center justify-items-center gap-2">
+        <div className="mx-auto flex h-16 max-w-md items-center justify-around px-4">
           <Link
             to="/dashboard"
             className={`flex flex-col items-center ${location.pathname === "/dashboard" ? "text-green-500" : "text-zinc-400 hover:text-green-500"

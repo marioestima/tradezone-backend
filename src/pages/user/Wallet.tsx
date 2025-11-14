@@ -250,41 +250,41 @@ const WalletPage: React.FC = () => {
 
       {/* NAVBAR */}
       <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-white/10 bg-background-dark/80 backdrop-blur-sm">
-       <div className="mx-auto flex h-16 max-w-md items-center justify-around px-4">
-         <Link
-          to="/wallet"
-          className="flex flex-col items-center gap-1 text-gray-400"
-        >
-          <Wallet size={22} />
-          <span className="text-[11px] font-bold">Início</span>
-        </Link>
+        <div className="mx-auto flex h-16 max-w-md items-center justify-around px-4">
+          <Link
+            to="/wallet"
+            className="flex flex-col items-center gap-1 text-green-400"
+          >
+            <Wallet size={22} />
+            <span className="text-[11px] font-bold">Início</span>
+          </Link>
 
 
-        <Link
-          to="/plans"
-          className="flex flex-col items-center gap-1 text-green-400"
-        >
-          <BarChart2 size={22} />
-          <span className="text-[11px] font-bold">Planos</span>
-        </Link>
+          <Link
+            to="/plans"
+            className="flex flex-col items-center gap-1  text-gray-400 hover:text-green-500 "
+          >
+            <BarChart2 size={22} />
+            <span className="text-[11px] font-bold">Planos</span>
+          </Link>
 
-        <Link
-          to="/transactions"
-          className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
-        >
-          <ActivityIcon className="w-5 h-5" />
-          <span className="text-[11px] font-bold">Transações</span>
-        </Link>
+          <Link
+            to="/transactions"
+            className="flex flex-col items-center gap-1 text-zinc-500 hover:text-green-500 transition"
+          >
+            <ActivityIcon className="w-5 h-5" />
+            <span className="text-[11px] font-bold">Transações</span>
+          </Link>
 
 
-        <Link
-          to="/profile"
-          className="flex flex-col items-center gap-1 text-gray-400"
-        >
-          <User size={22} />
-          <span className="text-[11px] font-bold">Perfil</span>
-        </Link>
-       </div>
+          <Link
+            to="/profile"
+            className="flex flex-col items-center gap-1 text-gray-400"
+          >
+            <User size={22} />
+            <span className="text-[11px] font-bold">Perfil</span>
+          </Link>
+        </div>
       </footer>
     </div>
   );
