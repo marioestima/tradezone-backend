@@ -13,7 +13,12 @@ import Wallet from "../pages/user/Wallet";
 import Plans from "../pages/user/Plans";
 import Investments from "../pages/user/Investments";
 import Transactions from "../pages/user/Transactions";
-import Notification from "../pages/Notification/Notification";
+import Notification from "../pages/user/Notification/Notification";
+
+// Novas páginas do Depósito
+import DepositPay from "../pages/user/Deposits/DespositPay";
+import DepositConfirm from "../pages/user/Deposits/DespositConfirm";
+import DepositSuccess from "../pages/user/Deposits/DepositSuccess";
 
 // Componente de rota privada
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
@@ -39,6 +44,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/profile"
         element={
@@ -47,6 +53,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/wallet"
         element={
@@ -55,6 +62,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/plans"
         element={
@@ -63,6 +71,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/investments"
         element={
@@ -71,6 +80,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/transactions"
         element={
@@ -85,6 +95,34 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Notification />
+          </PrivateRoute>
+        }
+      />
+
+      {/* ROTAS DE DEPÓSITO */}
+      <Route
+        path="/deposit/pay"
+        element={
+          <PrivateRoute>
+            <DepositPay />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/deposit/confirm"
+        element={
+          <PrivateRoute>
+            <DepositConfirm />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/deposit/success"
+        element={
+          <PrivateRoute>
+            <DepositSuccess />
           </PrivateRoute>
         }
       />
