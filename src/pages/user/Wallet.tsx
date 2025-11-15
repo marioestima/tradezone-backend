@@ -25,7 +25,6 @@ const WalletPage: React.FC = () => {
   const [depositModalOpen, setDepositModalOpen] = useState(false);
   const [currencyStep, setCurrencyStep] = useState<"choice" | "method">("choice");
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null);
-  const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -80,7 +79,6 @@ const WalletPage: React.FC = () => {
   const openDepositModal = () => {
     setCurrencyStep("choice");
     setSelectedCurrency(null);
-    setSelectedMethod(null);
     setDepositModalOpen(true);
   };
 
@@ -89,10 +87,9 @@ const WalletPage: React.FC = () => {
     setCurrencyStep("method");
   };
 
+  // AQUI ESTAVA O ERRO ⚠
+  // selectedMethod foi removido porque não era utilizado.
   const handleMethodSelect = (method: string) => {
-    setSelectedMethod(method);
-
-    // Ir para página de pagamento (vamos criar depois)
     navigate("/deposit/pay", {
       state: {
         currency: selectedCurrency,
