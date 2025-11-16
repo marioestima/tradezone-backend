@@ -43,8 +43,9 @@ model Investment {
   startAt     DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
-  plan Plan @relation(fields: [planId], references: [id])
+  user    User          @relation(fields: [userId], references: [id])
+  plan    Plan          @relation(fields: [planId], references: [id])
+  profits DailyProfit[] // relação inversa
 }
 
 model Transaction {
@@ -81,6 +82,15 @@ model Deposit {
 
   user   User   @relation(fields: [userId], references: [id])
   wallet Wallet @relation(fields: [walletId], references: [id])
+}
+
+model DailyProfit {
+  id           Int      @id @default(autoincrement())
+  investmentId Int
+  profit       Decimal
+  date         DateTime @default(now())
+
+  investment Investment @relation(fields: [investmentId], references: [id])
 }
 
 enum DepositStatus {

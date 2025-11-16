@@ -1,8 +1,10 @@
 import cron from "node-cron";
 import { PrismaInvestmentRepository } from "../repositories/prisma/investement-repository";
 import { PrismaPlanRepository } from "../repositories/prisma/plan-repository";
-import { Decimal } from "@prisma/client/runtime/library.js";
+import { PrismaClient } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/library";
 
+const prisma = new PrismaClient();
 const investmentRepo = new PrismaInvestmentRepository();
 const planRepo = new PrismaPlanRepository();
 
@@ -10,7 +12,7 @@ cron.schedule("0 0 * * *", async () => {
   console.log("🔁 Executando job: dailyProfit");
 
   try {
-    const investments = await investmentRepo.findAllActive(); // pega todos os investimentos ativos
+    const investments = await investmentRepo.findAllActive();
 
     for (const investment of investments) {
       const plan = await planRepo.findById(investment.planId);
@@ -24,14 +26,22 @@ cron.schedule("0 0 * * *", async () => {
         accumulated: investment.accumulated.add(dailyProfit),
       });
 
+      await prisma.dailyProfit.create({
+        data: {
+          investmentId: investment.id,
+          profit: dailyProfit,
+          date: new Date(),
+        },
+      });
+
       console.log(
         `💰 Investimento #${
           investment.id
-        } atualizado: +${dailyProfit.toString()} Kz`
+        } => Lucro diário salvo: ${dailyProfit.toString()} Kz`
       );
     }
 
-    console.log("✅ Job dailyProfit concluído com sucesso.");
+    console.log("✅ Job dailyProfit concluído.");
   } catch (error: any) {
     console.error("❌ Erro ao executar dailyProfit:", error.message);
   }
