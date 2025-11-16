@@ -11,6 +11,9 @@ router.post("/register", userController.create.bind(userController));
 // Login
 router.post("/login", userController.login.bind(userController));
 
+ 
+router.get("/me", authMiddleware, userController.getMe.bind(userController));
+
 // Listar todos usuários (protegido)
 router.get("/", authMiddleware, userController.getAll.bind(userController));
 

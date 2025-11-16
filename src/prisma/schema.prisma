@@ -11,7 +11,7 @@ model User {
   id           Int           @id @default(autoincrement())
   name         String
   email        String        @unique
-  phone        Decimal
+  phone        String
   password     String
   role         Role          @default(INVESTOR)
   balance      Decimal       @default(0.0)
@@ -20,17 +20,18 @@ model User {
   wallet       Wallet?       @relation("UserWallet")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  deposits     Deposit[]
 }
 
-  model Plan {
-    id             Int          @id @default(autoincrement())
-    name           String
-    value          Decimal
-    dailyProfitPct Decimal       // ex: 15 = 15%
-    status         PlanStatus   @default(OPEN)
-    createdAt      DateTime     @default(now())
-    investments    Investment[] // relação inversa
-  }
+model Plan {
+  id             Int          @id @default(autoincrement())
+  name           String
+  value          Decimal
+  dailyProfitPct Decimal // ex: 15 = 15%
+  status         PlanStatus   @default(OPEN)
+  createdAt      DateTime     @default(now())
+  investments    Investment[] // relação inversa
+}
 
 model Investment {
   id          Int      @id @default(autoincrement())
@@ -42,8 +43,8 @@ model Investment {
   startAt     DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user        User     @relation(fields: [userId], references: [id])
-  plan        Plan     @relation(fields: [planId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  plan Plan @relation(fields: [planId], references: [id])
 }
 
 model Transaction {
@@ -55,16 +56,37 @@ model Transaction {
   createdAt DateTime        @default(now())
   note      String?
 
-  user      User            @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Wallet {
   id        Int      @id @default(autoincrement())
-  userId    Int       @unique // 👈 ADICIONADO para corrigir o erro (1:1)
-  balance   Decimal   @default(0.0)
-  updatedAt DateTime  @updatedAt
+  userId    Int      @unique
+  balance   Decimal  @default(0.0)
+  updatedAt DateTime @updatedAt
 
-  user      User      @relation("UserWallet", fields: [userId], references: [id])
+  user     User      @relation("UserWallet", fields: [userId], references: [id])
+  deposits Deposit[]
+}
+
+model Deposit {
+  id         Int           @id @default(autoincrement())
+  userId     Int
+  walletId   Int
+  amount     Decimal
+  status     DepositStatus @default(PENDING)
+  receiptUrl String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  wallet Wallet @relation(fields: [walletId], references: [id])
+}
+
+enum DepositStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum Role {

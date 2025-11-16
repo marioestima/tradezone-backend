@@ -1,9 +1,13 @@
-import { JwtPayload } from "jsonwebtoken";
-
+// global.d.ts
 declare global {
   namespace Express {
     interface Request {
-      user?: JwtPayload;
+      user?: {
+        userId: number;
+        role: string;
+      };
     }
   }
 }
+
+export {};
