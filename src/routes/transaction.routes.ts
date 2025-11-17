@@ -20,7 +20,6 @@ router.get(
 // Pegar todas as transações de um usuário por tipo
 router.get(
   "/user/:id/type/:type",
- 
   transactionController.getByUserAndType.bind(transactionController)
 );
 
