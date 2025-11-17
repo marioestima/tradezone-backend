@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth-middleware";
+ 
 import { adminMiddleware } from "../middlewares/admin-middleware";
 import { upload } from "../middlewares/upload";
 import { DepositController } from "../controllers/deposit-controller";
@@ -18,7 +18,6 @@ const depositController = new DepositController(depositService);
 // Criar depósito (com upload para Drive)
 router.post(
   "/",
-  authMiddleware,
   upload.single("receipt"),
   depositController.create.bind(depositController)
 );
@@ -26,7 +25,6 @@ router.post(
 // Aprovar depósito (admin)
 router.patch(
   "/:id/approve",
-  authMiddleware,
   adminMiddleware,
   depositController.approve.bind(depositController)
 );
@@ -34,7 +32,6 @@ router.patch(
 // Rejeitar depósito (admin)
 router.patch(
   "/:id/reject",
-  authMiddleware,
   adminMiddleware,
   depositController.reject.bind(depositController)
 );

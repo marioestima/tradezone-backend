@@ -8,21 +8,21 @@ const investmentController = new InvestmentController();
 // Criar investimento
 router.post(
   "/",
-  authMiddleware,
+
   investmentController.create.bind(investmentController)
 );
 
 // Listar investimentos de um usuário
 router.get(
   "/user/:userId",
-  authMiddleware,
+
   investmentController.getByUser.bind(investmentController)
 );
 
 // Incrementar acumulado de um investimento
 router.post(
   "/increment",
-  authMiddleware,
+
   investmentController.increment.bind(investmentController)
 );
 
