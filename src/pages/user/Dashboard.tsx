@@ -1,4 +1,4 @@
- import { Home, BarChart2, Wallet, User, X } from "lucide-react";
+import { Home, BarChart2, Wallet, User, X } from "lucide-react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -58,8 +58,6 @@ const Dashboard = () => {
       } catch (err: any) {
         if (err.response?.status === 401) {
           console.warn("Token inválido ou expirado. Redirecionando para login...");
-          localStorage.removeItem("token");
-          navigate("/login");
         } else {
           console.error("❌ ERRO AO PUXAR USER /auth/me:", err);
         }
