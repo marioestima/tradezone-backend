@@ -39,93 +39,59 @@ const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [chartData, setChartData] = useState<ProfitData[]>([]);
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [userPlans, setUserPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
 
-  // Função para formatar valores em Kz
   const formatKz = (value: number) =>
-    new Intl.NumberFormat("pt-AO", { style: "currency", currency: "AOA", maximumFractionDigits: 0 }).format(value);
+    new Intl.NumberFormat("pt-AO", { style: "currency", currency: "AOA" }).format(value);
 
   useEffect(() => {
     const loadData = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        console.warn("❌ Token não encontrado. Redirecionando para login...");
         navigate("/login");
         return;
       }
 
-      // ======================
       // 1. PEGAR USUÁRIO LOGADO
-      // ======================
       try {
         const me = await userService.getMe();
-        console.log("📌 Usuário logado:", me);
         setUser(me);
       } catch (err: any) {
-        console.error("❌ ERRO AO PEGAR USUÁRIO:", err);
+        console.error("Erro ao carregar usuário:", err);
       }
 
-      // ======================
       // 2. LUCROS DIÁRIOS
-      // ======================
       try {
         const profits: DailyProfit[] = await dailyProfitService.getAll();
-        console.log("📈 Lucros recebidos:", profits);
-
         const last7 = profits.slice(-7);
         const formatted = last7.map((p) => ({
           day: new Date(p.date).toLocaleDateString("pt-AO", { day: "2-digit", month: "2-digit" }),
           profit: p.amount,
         }));
-
         setChartData(formatted);
       } catch (err: any) {
-        console.error("❌ ERRO AO PUXAR DAILY PROFIT:", err);
+        console.error("Erro ao carregar lucros:", err);
       }
 
-      // ======================
-      // 3. PLANOS DISPONÍVEIS
-      // ======================
+      // 3. PLANOS
       try {
         const allPlans: ApiPlan[] = await planService.getAll();
-        console.log("💼 Planos recebidos da API:", allPlans);
-
         const mapped = allPlans.map((p) => ({
           id: p.id,
           amount: p.value,
           returnAmount: p.value + (p.value * p.dailyProfitPct * 60) / 100,
           profitRate: p.dailyProfitPct,
         }));
-
         setPlans(mapped);
       } catch (err: any) {
-        console.error("❌ ERRO AO PUXAR PLANOS:", err);
-      }
-
-      // ======================
-      // 4. PLANOS DO USUÁRIO (investidos)
-      // ======================
-      try {
-        if (user) {
-          const investedPlans: ApiPlan[] = await planService.getUserPlans(user.id);
-          const mapped = investedPlans.map((p) => ({
-            id: p.id,
-            amount: p.value,
-            returnAmount: p.value + (p.value * p.dailyProfitPct * 60) / 100,
-            profitRate: p.dailyProfitPct,
-          }));
-          setUserPlans(mapped);
-        }
-      } catch (err: any) {
-        console.error("❌ ERRO AO PEGAR PLANOS INVESTIDOS:", err);
+        console.error("Erro ao carregar planos:", err);
       }
     };
 
     loadData();
-  }, [navigate, user]);
+  }, [navigate]);
 
-  const totalInvestido = userPlans.reduce((sum, p) => sum + p.amount, 0);
+  const totalInvestido = 0; // Total investido sempre 0 inicialmente
   const lucroMedio = chartData.length
     ? chartData.reduce((sum, c) => sum + c.profit, 0) / chartData.length
     : 0;
@@ -238,32 +204,28 @@ const Dashboard = () => {
         <div className="mx-auto flex h-16 max-w-md items-center justify-around px-4">
           <Link
             to="/dashboard"
-            className={`flex flex-col items-center ${location.pathname === "/dashboard" ? "text-green-500" : "text-zinc-400"
-              }`}
+            className={`flex flex-col items-center ${location.pathname === "/dashboard" ? "text-green-500" : "text-zinc-400"}`}
           >
             <Home size={20} />
             <span className="text-[11px] font-bold">Início</span>
           </Link>
           <Link
             to="/plans"
-            className={`flex flex-col items-center ${location.pathname === "/plans" ? "text-green-500" : "text-zinc-400"
-              }`}
+            className={`flex flex-col items-center ${location.pathname === "/plans" ? "text-green-500" : "text-zinc-400"}`}
           >
             <BarChart2 size={20} />
             <span className="text-[11px] font-bold">Planos</span>
           </Link>
           <Link
             to="/wallet"
-            className={`flex flex-col items-center ${location.pathname === "/wallet" ? "text-green-500" : "text-zinc-400"
-              }`}
+            className={`flex flex-col items-center ${location.pathname === "/wallet" ? "text-green-500" : "text-zinc-400"}`}
           >
             <Wallet size={20} />
             <span className="text-[11px] font-bold">Carteira</span>
           </Link>
           <Link
             to="/profile"
-            className={`flex flex-col items-center ${location.pathname === "/profile" ? "text-green-500" : "text-zinc-400"
-              }`}
+            className={`flex flex-col items-center ${location.pathname === "/profile" ? "text-green-500" : "text-zinc-400"}`}
           >
             <User size={20} />
             <span className="text-[11px] font-bold">Perfil</span>
