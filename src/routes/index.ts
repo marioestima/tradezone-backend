@@ -12,12 +12,12 @@ const router = Router();
 
 // Rotas públicas
 router.use("/auth", userRoutes);
- 
+
 // Rotas protegidas
 router.use("/plans", planRoutes);
-router.use("/investments", authMiddleware, investmentRoutes);
-router.use("/transactions", authMiddleware, transactionRoutes);
-router.use("/deposits", authMiddleware, depositRoutes);
-router.use("/daily-profit", authMiddleware, dailyProfitRoutes);
+router.use("/investments", investmentRoutes);
+router.use("/transactions", transactionRoutes);
+router.use("/deposits", depositRoutes);
+router.use("/daily-profit", dailyProfitRoutes);
 
 export default router;
