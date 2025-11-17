@@ -29,19 +29,18 @@ export const userService = {
     return response.data;
   },
 
-  // 🔐 Pega dados do usuário logado
+  
   getMe: async (): Promise<User> => {
-    const response = await api.get("/users/me");
+    const response = await api.get("/auth/me");  
     return response.data;
   },
 
-  // 🔐 Pega usuário por ID
   getUser: async (id: number): Promise<User> => {
     const response = await api.get(`/users/${id}`);
     return response.data;
   },
 
-  // 🔐 Lista todos usuários
+ 
   getAllUsers: async (): Promise<User[]> => {
     const response = await api.get("/users");
     return response.data;

@@ -1,5 +1,6 @@
+// src/contexts/AuthContext.tsx
 import { createContext, useContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
+import type { ReactNode } from "react"
 import { userService } from "../services/userService";
 
 export interface User {
@@ -22,32 +23,39 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
- 
 
+  // Carrega usuário do localStorage ao iniciar
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    const token = localStorage.getItem("token");
+    if (storedUser && token) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
 
+  // Login
   const login = async (email: string, password: string) => {
     const data = await userService.login(email, password);
-    console.log(data)
+    if (!data.token) throw new Error("Token não retornado pelo servidor");
+
     setUser(data.user);
     localStorage.setItem("user", JSON.stringify(data.user));
     localStorage.setItem("token", data.token);
   };
 
+  // Register
   const register = async (name: string, email: string, phone: number, password: string) => {
     const newUser = await userService.register(name, email, phone, password);
-    console.log(newUser)
     setUser(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
+  // Logout
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
   return (
