@@ -4,5 +4,5 @@ import { Decimal } from "@prisma/client/runtime/library";
 
 export interface IWalletRepository {
   findByUserId(userId: number): Promise<Wallet | null>;
-  updateBalance(userId: number, amount: Decimal): Promise<Wallet>;
+  updateBalance(userId: number, amount: number): Promise<Wallet>;
 }

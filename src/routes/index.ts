@@ -12,6 +12,7 @@ const router = Router();
 
 // Rotas públicas
 router.use("/auth", userRoutes);
+router.use("/users", userRoutes);
 
 // Rotas protegidas
 router.use("/plans", planRoutes);

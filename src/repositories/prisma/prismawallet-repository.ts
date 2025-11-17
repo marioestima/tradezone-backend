@@ -12,7 +12,7 @@ export class PrismaWalletRepository implements IWalletRepository {
     });
   }
 
-  async updateBalance(userId: number, amount: Decimal): Promise<Wallet> {
+  async updateBalance(userId: number, amount: number): Promise<Wallet> {
     return prisma.wallet.update({
       where: { userId },
       data: {
