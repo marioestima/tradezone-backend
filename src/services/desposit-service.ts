@@ -17,7 +17,10 @@ export class DepositService {
 
   async approveDeposit(id: number) {
     const deposit = await this.depositRepo.updateStatus(id, "APPROVED");
-    await this.walletRepo.updateBalance(deposit.walletId, deposit.amount);
+
+ 
+    await this.walletRepo.updateBalance(deposit.walletId, Number(deposit.amount));
+
     return deposit;
   }
 

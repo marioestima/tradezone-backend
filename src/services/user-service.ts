@@ -7,19 +7,17 @@ export class UserService {
   constructor(private userRepository: IUserRepository) {}
 
   async createUser(data: CreateUserDto): Promise<User> {
-    // Verifica se já existe um usuário com o mesmo email
     const existingUser = await this.userRepository.findByEmail(data.email);
 
     if (existingUser) {
       throw new Error("Ja esta registrado");
     }
 
-    // Criptografa a senha
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    // Cria o novo usuário
     return this.userRepository.create({
       ...data,
+      phone: String(data.phone),
       password: hashedPassword,
     });
   }
@@ -45,6 +43,7 @@ export class UserService {
     }
     return null;
   }
+
   async getAllUsers(): Promise<User[]> {
     return this.userRepository.findAll();
   }
