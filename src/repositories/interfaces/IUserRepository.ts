@@ -3,7 +3,7 @@ import { User, Role } from "@prisma/client";
 
 export interface IUserRepository {
   // Cria um novo usuário
-  create(data: { name: string; email: string; password: string; phone: number; role?: Role }): Promise<User>;
+  create(data: { name: string; email: string; password: string; phone: string; role?: Role }): Promise<User>;
 
   // Busca um usuário pelo ID
   findById(id: number): Promise<User | null>;
