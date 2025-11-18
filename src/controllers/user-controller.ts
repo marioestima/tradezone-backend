@@ -43,6 +43,7 @@ export class UserController {
   async getMe(req: Request, res: Response) {
     try {
       const id = req.user?.userId;
+      
       console.log(id);
 
       if (!id) {

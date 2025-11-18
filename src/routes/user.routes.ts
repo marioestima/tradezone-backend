@@ -11,13 +11,13 @@ router.post("/register", userController.create.bind(userController));
 // Login
 router.post("/login", userController.login.bind(userController));
 
- 
-router.get("/me", userController.getMe.bind(userController));
+// ----------------------
+// Rotas protegidas 👇
+// ----------------------
+router.get("/me", authMiddleware, userController.getMe.bind(userController));
 
-// Listar todos usuários (protegido)
-router.get("/", userController.getAll.bind(userController));
+router.get("/", authMiddleware, userController.getAll.bind(userController));
 
-// Puxar usuário pelo ID (protegido)
-router.get("/:id", userController.getById.bind(userController));
+router.get("/:id", authMiddleware, userController.getById.bind(userController));
 
 export default router;
