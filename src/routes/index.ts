@@ -1,6 +1,4 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth-middleware";
-
 import userRoutes from "./user.routes";
 import planRoutes from "./plan.routes";
 import investmentRoutes from "./investment.routes";
