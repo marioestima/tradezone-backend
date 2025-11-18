@@ -1,10 +1,9 @@
-// global.d.ts
 declare global {
   namespace Express {
     interface Request {
       user?: {
-        userId: number;
-        role: string;
+        id: number;
+        role?: string;   
       };
     }
   }

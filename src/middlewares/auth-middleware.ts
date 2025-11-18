@@ -21,7 +21,10 @@ export const authMiddleware = (
       token,
       process.env.JWT_SECRET || ""
     ) as JwtPayload;
-    req.user = decoded;
+    req.user = {
+      id: decoded.userId,
+      role: decoded.role,
+    };
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });

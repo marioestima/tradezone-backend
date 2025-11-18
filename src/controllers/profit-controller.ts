@@ -7,7 +7,7 @@ const service = new DailyProfitService();
 export class DailyProfitController {
   async getAll(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId;
+      const userId = req.user?.id;
 
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });
@@ -22,7 +22,7 @@ export class DailyProfitController {
 
   async getSummary(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId;
+      const userId = req.user?.id;
 
       if (!userId) {
         return res.status(401).json({ message: "Unauthorized" });

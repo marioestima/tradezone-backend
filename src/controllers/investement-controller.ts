@@ -13,7 +13,7 @@ const investmentService = new InvestmentService(
 export class InvestmentController {
   async create(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId;
+      const userId = req.user?.id;
       const { planId, amount } = req.body;
 
       if (!userId) return res.status(401).json({ message: "Não autenticado." });

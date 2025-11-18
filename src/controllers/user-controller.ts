@@ -30,10 +30,12 @@ export class UserController {
           id: user.id,
           username: user.name,
           email: user.email,
+          role: user.role, // <-- adiciona isto
         },
-        JWT!,
+        process.env.JWT_SECRET!,
         { expiresIn: "2d" }
       );
+
       res.json({ user, token });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
@@ -42,8 +44,8 @@ export class UserController {
 
   async getMe(req: Request, res: Response) {
     try {
-      const id = req.user?.userId;
-      
+      const id = req.user?.id;
+
       console.log(id);
 
       if (!id) {

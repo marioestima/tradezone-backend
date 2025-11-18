@@ -8,7 +8,7 @@ export class DepositController {
     try {
       const { amount } = req.body;
       const receiptUrl = req.file?.path;
-      const userId = req.user?.userId;
+      const userId = req.user?.id;
 
       if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
