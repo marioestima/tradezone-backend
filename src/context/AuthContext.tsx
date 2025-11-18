@@ -1,5 +1,6 @@
+// context/AuthContext.tsx
 import { createContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
+import type { ReactNode } from "react"
 import { userService } from "../services/userService";
 
 export interface User {
@@ -18,8 +19,10 @@ interface AuthContextType {
   register: (name: string, email: string, phone: number, password: string) => Promise<void>;
 }
 
+// Criando o contexto
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Provider
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
@@ -40,19 +43,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     const data = await userService.login(email, password);
-
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
-
     setUser(data.user);
   };
 
   const register = async (name: string, email: string, phone: number, password: string) => {
     const data = await userService.register(name, email, phone, password);
-
     localStorage.setItem("token", data.token);
     localStorage.setItem("user", JSON.stringify(data.user));
-
     setUser(data.user);
   };
 
@@ -64,7 +63,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, register }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        login,
+        logout,
+        register,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
