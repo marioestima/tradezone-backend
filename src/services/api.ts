@@ -2,7 +2,8 @@ import axios from "axios";
 
 // URL da API
 const API_URL =
-  import.meta.env.VITE_API_URL || "https://tradezone-api-v1.onrender.com";
+  import.meta.env.VITE_API_URL ||
+  "https://tradezone-backend-b7gdehu19-marioestimas-projects.vercel.app/";
 
 // Instância do Axios
 export const api = axios.create({
