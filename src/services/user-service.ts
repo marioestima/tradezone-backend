@@ -1,4 +1,4 @@
-import { CreateUserDto, UpdateUserDto, LoginUserDto } from "../dtos/UserDTOs";
+ import { CreateUserDto, UpdateUserDto, LoginUserDto } from "../dtos/UserDTOs";
 import { User } from "@prisma/client";
 import { IUserRepository } from "../repositories/interfaces/IUserRepository";
 import bcrypt from "bcryptjs";
@@ -29,11 +29,17 @@ export class UserService {
     return this.userRepository.update(id, data);
   }
 
+  // agora compara password corretamente
   async login(data: LoginUserDto): Promise<User | null> {
     const user = await this.userRepository.findByEmail(data.email);
 
     if (!user) return null;
 
+    const isValid = await bcrypt.compare(data.password, user.password);
+    if (!isValid) return null;
+
+    // remove password before returning, se quiser:
+    // delete (user as any).password;
     return user;
   }
 

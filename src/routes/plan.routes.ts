@@ -1,25 +1,21 @@
 import { Router } from "express";
 import { PlanController } from "../controllers/plan-controller";
 import { authMiddleware } from "../middlewares/auth-middleware";
+// import { requireRole } from "../middlewares/role-middleware";
 
 const router = Router();
 const planController = new PlanController();
 
-// Criar plano → só usuário autenticado
+// Criar plano → requer autenticação
 router.post("/", authMiddleware, planController.create.bind(planController));
 
-// Listar todos os planos → público (sem middleware) ou autenticado se preferir
-router.get(
-  "/",
-  authMiddleware, // opcional
-  planController.getAll.bind(planController)
-);
+// Listar todos os planos → opcionalmente protegido (aqui deixei protegido)
+router.get("/", authMiddleware, planController.getAll.bind(planController));
 
 // Fechar plano → apenas admin
 router.post(
   "/close/:id",
   authMiddleware,
-
   planController.close.bind(planController)
 );
 

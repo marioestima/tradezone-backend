@@ -1,11 +1,11 @@
 import { Router } from "express";
- 
 import { adminMiddleware } from "../middlewares/admin-middleware";
 import { upload } from "../middlewares/upload";
 import { DepositController } from "../controllers/deposit-controller";
 import { DepositService } from "../services/desposit-service";
 import { PrismaDepositRepository } from "../repositories/prisma/deposit-respository";
 import { PrismaWalletRepository } from "../repositories/prisma/prismawallet-repository";
+import { authMiddleware } from "../middlewares/auth-middleware";
 
 const router = Router();
 
@@ -15,9 +15,10 @@ const walletRepo = new PrismaWalletRepository();
 const depositService = new DepositService(depositRepo, walletRepo);
 const depositController = new DepositController(depositService);
 
-// Criar depósito (com upload para Drive)
+// Criar depósito (com upload para Drive) -> usuário autenticado
 router.post(
   "/",
+  authMiddleware,          // <-- proteger antes do upload
   upload.single("receipt"),
   depositController.create.bind(depositController)
 );
@@ -25,6 +26,7 @@ router.post(
 // Aprovar depósito (admin)
 router.patch(
   "/:id/approve",
+  authMiddleware,
   adminMiddleware,
   depositController.approve.bind(depositController)
 );
@@ -32,6 +34,7 @@ router.patch(
 // Rejeitar depósito (admin)
 router.patch(
   "/:id/reject",
+  authMiddleware,
   adminMiddleware,
   depositController.reject.bind(depositController)
 );

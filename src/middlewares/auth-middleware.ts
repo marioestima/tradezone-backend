@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 interface JwtPayload {
@@ -17,10 +17,11 @@ export const authMiddleware = (
 
   const token = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET || ""
-    ) as JwtPayload;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+
+    // debug útil — comente em produção se necessário
+    // console.log("Decoded token:", decoded);
+
     req.user = {
       id: decoded.userId,
       role: decoded.role,
