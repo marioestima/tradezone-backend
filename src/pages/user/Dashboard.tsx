@@ -3,13 +3,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
+import toast, { Toaster } from "react-hot-toast";
 
 import NavBar from "../../components/NavBar";
 import { userService } from "../../services/userService";
-import { planService, type Plan as ApiPlan } from "../../services/planService";
 import { dailyProfitService, type DailyProfit } from "../../services/dailyProfitService";
+import { usePlans, type Plan } from "../../hooks/usePlans";
 
-// Tipos
 type User = {
   id: number;
   name: string;
@@ -18,13 +18,6 @@ type User = {
   balance: number;
   bankAccount?: string | null;
   bankName?: string | null;
-};
-
-type Plan = {
-  id: number;
-  amount: number;
-  returnAmount: number;
-  profitRate: number;
 };
 
 type ProfitData = {
@@ -38,8 +31,9 @@ const Dashboard = () => {
 
   const [user, setUser] = useState<User | null>(null);
   const [chartData, setChartData] = useState<ProfitData[]>([]);
-  const [plans, setPlans] = useState<Plan[]>([]);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
+  const { plans, loading: loadingPlans, error: plansError } = usePlans();
 
   const formatKz = (value: number) =>
     new Intl.NumberFormat("pt-AO", { style: "currency", currency: "AOA" }).format(value);
@@ -52,15 +46,16 @@ const Dashboard = () => {
         return;
       }
 
-      // 1. PEGAR USUÁRIO LOGADO
+      // PEGAR USUÁRIO LOGADO
       try {
         const me = await userService.getMe();
         setUser(me);
       } catch (err: any) {
-        console.error("Erro ao carregar usuário:", err);
+        toast.error("Erro ao carregar usuário.");
+        console.error(err);
       }
 
-      // 2. LUCROS DIÁRIOS
+      // LUCROS DIÁRIOS
       try {
         const profits: DailyProfit[] = await dailyProfitService.getAll();
         const last7 = profits.slice(-7);
@@ -70,35 +65,39 @@ const Dashboard = () => {
         }));
         setChartData(formatted);
       } catch (err: any) {
-        console.error("Erro ao carregar lucros:", err);
-      }
-
-      // 3. PLANOS
-      try {
-        const allPlans: ApiPlan[] = await planService.getAll();
-        const mapped = allPlans.map((p) => ({
-          id: p.id,
-          amount: p.value,
-          returnAmount: p.value + (p.value * p.dailyProfitPct * 60) / 100,
-          profitRate: p.dailyProfitPct,
-        }));
-        setPlans(mapped);
-      } catch (err: any) {
-        console.error("Erro ao carregar planos:", err);
+        toast.error("Erro ao carregar lucros diários.");
+        console.error(err);
       }
     };
 
     loadData();
   }, [navigate]);
 
-  const totalInvestido = 0; // Total investido sempre 0 inicialmente
+  const totalInvestido = 0;
   const lucroMedio = chartData.length
     ? chartData.reduce((sum, c) => sum + c.profit, 0) / chartData.length
     : 0;
 
+  const handleInvest = () => {
+    if (!user || !selectedPlan) return;
+
+    if (user.balance < selectedPlan.amount) {
+      toast.error("Saldo insuficiente para investir neste plano.");
+      return;
+    }
+
+    // Aqui você chamaria a API real para investir
+    toast.success(`Investimento de ${formatKz(selectedPlan.amount)} realizado com sucesso!`);
+
+    setSelectedPlan(null);
+    // Opcional: atualizar saldo do usuário local
+    setUser({ ...user, balance: user.balance - selectedPlan.amount });
+  };
+
   return (
     <div className="relative flex min-h-screen w-full flex-col bg-[#0A0A0A] font-display text-white">
       <NavBar title={`Bem-vindo ${user?.name || ""}`} />
+      <Toaster position="top-right" reverseOrder={false} />
 
       <main className="flex-1 px-4 py-2 pb-28">
         {/* SALDO E TOTAL INVESTIDO */}
@@ -109,9 +108,7 @@ const Dashboard = () => {
                 <p className="text-sm text-zinc-400">Saldo</p>
                 <p className="text-2xl font-bold text-green-500">{formatKz(user?.balance || 0)}</p>
               </div>
-                
               <div className="h-10 w-px bg-zinc-700"></div>
-
               <div>
                 <p className="text-sm text-zinc-400">Total Investido</p>
                 <p className="text-2xl font-bold text-blue-500">{formatKz(totalInvestido)}</p>
@@ -142,7 +139,11 @@ const Dashboard = () => {
 
         {/* PLANOS */}
         <section className="mt-6 flex flex-col gap-4">
-          {plans.length === 0 ? (
+          {loadingPlans ? (
+            <p className="text-zinc-400 text-center">Carregando planos...</p>
+          ) : plansError ? (
+            <p className="text-red-500 text-center">{plansError}</p>
+          ) : plans.length === 0 ? (
             <p className="text-zinc-400 text-center">Nenhum plano disponível no momento.</p>
           ) : (
             plans.map((plan) => (
@@ -178,12 +179,12 @@ const Dashboard = () => {
         <Dialog as="div" className="relative z-50" onClose={() => setSelectedPlan(null)}>
           <Transition.Child
             as={Fragment}
-            enter="ease-out duration-200"
-            enterFrom="scale-95 opacity-0"
-            enterTo="scale-100 opacity-100"
-            leave="ease-in duration-150"
-            leaveFrom="scale-100 opacity-100"
-            leaveTo="scale-95 opacity-0"
+            enter="transform transition ease-out duration-300"
+            enterFrom="-translate-y-full opacity-0"
+            enterTo="translate-y-0 opacity-100"
+            leave="transform transition ease-in duration-200"
+            leaveFrom="translate-y-0 opacity-100"
+            leaveTo="-translate-y-full opacity-0"
           >
             <Dialog.Panel className="w-full max-w-sm rounded-2xl bg-zinc-900 p-6 border border-zinc-700 text-center">
               <div className="flex justify-between items-center mb-4">
@@ -193,7 +194,14 @@ const Dashboard = () => {
                 </button>
               </div>
 
-              <button className="mt-6 w-full rounded-xl bg-green-500 py-2 text-white font-bold hover:bg-green-600 transition">
+              <p className="text-sm text-zinc-400 mb-4">
+                Valor do plano: {formatKz(selectedPlan?.amount || 0)}
+              </p>
+
+              <button
+                onClick={handleInvest}
+                className="mt-6 w-full rounded-xl bg-green-500 py-2 text-white font-bold hover:bg-green-600 transition"
+              >
                 Investir Agora
               </button>
             </Dialog.Panel>
