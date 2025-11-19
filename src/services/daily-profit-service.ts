@@ -1,5 +1,4 @@
-// services/daily-profit-service.ts
-import { PrismaClient } from "@prisma/client";
+ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -21,7 +20,9 @@ export class DailyProfitService {
   async getTotalDailyProfit(userId: number) {
     const result = await prisma.dailyProfit.aggregate({
       where: {
-        investment: { userId },
+        investment: {
+          userId: userId,
+        },
       },
       _sum: { profit: true },
     });

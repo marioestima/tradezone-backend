@@ -1,5 +1,4 @@
-// controllers/daily-profit-controller.ts
-import { Request, Response } from "express";
+ import { Request, Response } from "express";
 import { DailyProfitService } from "../services/daily-profit-service";
 
 const service = new DailyProfitService();
