@@ -46,7 +46,6 @@ const Dashboard = () => {
         return;
       }
 
-      // PEGAR USUÁRIO LOGADO
       try {
         const me = await userService.getMe();
         setUser(me);
@@ -55,11 +54,10 @@ const Dashboard = () => {
         console.error(err);
       }
 
-      // LUCROS DIÁRIOS
       try {
         const profits: DailyProfit[] = await dailyProfitService.getAll();
-        const last7 = profits.slice(-7);
-        const formatted = last7.map((p) => ({
+        const last60 = profits.slice(-60); // últimos 60 dias
+        const formatted = last60.map((p) => ({
           day: new Date(p.date).toLocaleDateString("pt-AO", { day: "2-digit", month: "2-digit" }),
           profit: p.amount,
         }));
@@ -78,6 +76,8 @@ const Dashboard = () => {
     ? chartData.reduce((sum, c) => sum + c.profit, 0) / chartData.length
     : 0;
 
+  const lucroTotal = chartData.reduce((sum, c) => sum + c.profit, 0);
+
   const handleInvest = () => {
     if (!user || !selectedPlan) return;
 
@@ -86,12 +86,9 @@ const Dashboard = () => {
       return;
     }
 
-    // Aqui você chamaria a API real para investir
     toast.success(`Investimento de ${formatKz(selectedPlan.amount)} realizado com sucesso!`);
-
-    setSelectedPlan(null);
-    // Opcional: atualizar saldo do usuário local
     setUser({ ...user, balance: user.balance - selectedPlan.amount });
+    setSelectedPlan(null);
   };
 
   return (
@@ -112,6 +109,11 @@ const Dashboard = () => {
               <div>
                 <p className="text-sm text-zinc-400">Total Investido</p>
                 <p className="text-2xl font-bold text-blue-500">{formatKz(totalInvestido)}</p>
+              </div>
+              <div className="h-10 w-px bg-zinc-700"></div>
+              <div>
+                <p className="text-sm text-zinc-400">Lucro Total (60 dias)</p>
+                <p className="text-2xl font-bold text-yellow-400">{formatKz(lucroTotal)}</p>
               </div>
             </div>
           </div>
@@ -180,11 +182,11 @@ const Dashboard = () => {
           <Transition.Child
             as={Fragment}
             enter="transform transition ease-out duration-300"
-            enterFrom="-translate-y-full opacity-0"
+            enterFrom="-translate-y-96 opacity-0"
             enterTo="translate-y-0 opacity-100"
             leave="transform transition ease-in duration-200"
             leaveFrom="translate-y-0 opacity-100"
-            leaveTo="-translate-y-full opacity-0"
+            leaveTo="-translate-y-96 opacity-0"
           >
             <Dialog.Panel className="w-full max-w-sm rounded-2xl bg-zinc-900 p-6 border border-zinc-700 text-center">
               <div className="flex justify-between items-center mb-4">
