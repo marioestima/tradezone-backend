@@ -34,7 +34,7 @@ export const userService = {
 
   getUser: async (id: number): Promise<User> => {
     const response = await api.get(`/users/${id}`);
-    return response.data;
+    return response.data; 
   },
 
   getAllUsers: async (): Promise<User[]> => {
