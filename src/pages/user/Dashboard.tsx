@@ -111,10 +111,6 @@ const Dashboard = () => {
                 <p className="text-2xl font-bold text-blue-500">{formatKz(totalInvestido)}</p>
               </div>
               <div className="h-10 w-px bg-zinc-700"></div>
-              <div>
-                <p className="text-sm text-zinc-400">Lucro Total (60 dias)</p>
-                <p className="text-2xl font-bold text-yellow-400">{formatKz(lucroTotal)}</p>
-              </div>
             </div>
           </div>
         </section>
