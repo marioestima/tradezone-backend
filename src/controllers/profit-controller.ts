@@ -1,4 +1,4 @@
- import { Request, Response } from "express";
+import { Request, Response } from "express";
 import { DailyProfitService } from "../services/daily-profit-service";
 
 const service = new DailyProfitService();
@@ -6,13 +6,15 @@ const service = new DailyProfitService();
 export class DailyProfitController {
   async getAll(req: Request, res: Response) {
     try {
-      const userId = req.user?.id;
+      const id = req.user?.id;
+      console.log(id);
 
-      if (!userId) {
+      if (!id) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      const profits = await service.getUserDailyProfits(userId);
+      const profits = await service.getUserDailyProfits(id);
+      console.log(profits);
       res.json(profits);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
@@ -21,14 +23,14 @@ export class DailyProfitController {
 
   async getSummary(req: Request, res: Response) {
     try {
-      const userId = req.user?.id;
+      const id = req.user?.id;
 
-      if (!userId) {
+      if (!id) {
         return res.status(401).json({ message: "Unauthorized" });
       }
 
-      const total = await service.getTotalDailyProfit(userId);
-      const last7 = await service.getLast7DaysProfit(userId);
+      const total = await service.getTotalDailyProfit(id);
+      const last7 = await service.getLast7DaysProfit(id);
 
       res.json({
         total,
