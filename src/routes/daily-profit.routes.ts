@@ -1,4 +1,4 @@
- import { Router } from "express";
+import { Router } from "express";
 import { DailyProfitController } from "../controllers/profit-controller";
 import { authMiddleware } from "../middlewares/auth-middleware";
 

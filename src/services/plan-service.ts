@@ -15,7 +15,7 @@ export class PlanService {
 
   async getAllPlans(status?: "OPEN" | "CLOSED"): Promise<Plan[]> {
     return this.planRepository.findAll(status);
-  }
+  } 
 
   async updatePlan(id: number, data: UpdatePlanDTO): Promise<Plan> {
     return this.planRepository.update(id, data);
